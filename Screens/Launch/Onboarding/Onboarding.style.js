@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
+    },
+    text: {
+        marginTop: 15,
+        fontSize: 24
     }
 })
 
