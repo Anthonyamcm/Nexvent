@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         flexDirection: 'row',
         marginBottom: 20,
-        marginTop: 50,
+        marginTop: 20,
     }
 });
 

@@ -103,7 +103,7 @@ class RegistrationContainer extends React.Component{
             case 2 : 
                 return(
                     <TouchableWithoutFeedback>
-                    <Animated.View>
+                    <Animated.View style={{ opacity: this.state.fadeInOpacity }}>
                         <View>
                         <Text style={styles.title}>{'Password'}</Text>
                         <View style={this.getInputStyle()}>
@@ -144,7 +144,7 @@ class RegistrationContainer extends React.Component{
                 case 3 : 
                 return(
                     <TouchableWithoutFeedback>
-                    <Animated.View>
+                    <Animated.View style={{ opacity: this.state.fadeInOpacity }}>
                         <View>
                         <Text style={styles.title}>{'Mobile Number'}</Text>
                             <View style={this.getInputStyle()}>
@@ -414,9 +414,8 @@ class RegistrationContainer extends React.Component{
                  
                 return (
                     <TouchableWithoutFeedback>
-                    <Animated.View>
+                    <Animated.View style={{ opacity: this.state.fadeInOpacity }}>
                         <View>
-                        <Text style={styles.title}>{'Location'}</Text>
                         <IonIcons 
                         name='location-outline'
                         size={84}
@@ -743,6 +742,7 @@ class RegistrationContainer extends React.Component{
             this.setState({
                 stepProgress : stepProgress + 1
             });
+            this.startBackgroundFadeAnimation();
         }
     }
 
