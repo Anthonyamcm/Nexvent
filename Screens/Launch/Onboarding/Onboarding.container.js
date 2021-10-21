@@ -17,6 +17,7 @@ class OnboardingContainer extends React.Component {
                         title='Log In'
                         shouldHaveGradient={true}
                         titleFontSize={24}
+                        fontFamilt={'GTEestiDisplay-Medium'}
                         style={{width: 200, 
                         paddingTop: 40, 
                         shadowColor: "#0072ff",
@@ -31,6 +32,7 @@ class OnboardingContainer extends React.Component {
                     <CustomButton
                         title='Register'
                         titleFontSize={24}
+                        fontFamilt={'GTEestiDisplay-Medium'}
                         textColor={'gray'}
                         style={{width: 200, paddingTop: 20}}
                         onPress={() => {this.props.navigation.navigate('Registration')}}/>

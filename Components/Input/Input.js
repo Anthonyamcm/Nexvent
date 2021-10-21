@@ -176,7 +176,7 @@ CustomInput.defaultProps = {
     borderWidth: 1.5,
     textAlign: 'left',
     hideInputWithoutReveal: false,
-    fontFamily: null,
+    fontFamily: 'GTEestiDisplay-Medium',
     currencySymbol: '',
     inputColor: '#000000',
     titleFontWeight: 'bold',

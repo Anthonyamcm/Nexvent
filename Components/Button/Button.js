@@ -161,7 +161,7 @@ CustomButton.defaultProps = {
     subtitleFontSize: 14,
     isDisabled: false,
     titleTextDecorationLine: 'none',
-    fontFamily: null,
+    fontFamily: 'GTEestiDisplay-Medium',
     shouldShowSwitch: false,
     shouldHaveGradient: false,
     gradientColours: ['#00c6ff','#0072ff']

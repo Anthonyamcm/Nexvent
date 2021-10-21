@@ -22,10 +22,20 @@ class CustomHeader extends React.Component {
                     onPress={() => this.props.onBackPressed()}
                     hitSlop={{ top: 25, bottom: 25, left: 25, right: 25 }}>
 
+                {this.props.shouldShowCross && (
+                    <MaterialCommunityIcons
+                        name='close'
+                        size={35}
+                        color={'black'} />
+                )
+                }
+                {this.props.shouldShowCross != true && (
                     <MaterialCommunityIcons
                         name='chevron-left'
                         size={35}
                         color={'black'} />
+                )
+                }
                 </TouchableOpacity>
 
                 <Text style={styles.title}>{this.props.title}</Text>
@@ -54,7 +64,7 @@ const styles = StyleSheet.create({
     back: {
         height: 60,
         width: 60,
-        paddingStart: 10,
+        paddingStart: 0,
         justifyContent: 'center',
         alignItems: 'center',
     }
@@ -63,6 +73,7 @@ const styles = StyleSheet.create({
 CustomHeader.propTypes = {
     onBackPressed: PropTypes.func,
     title: PropTypes.string,
+    shouldShowCross: PropTypes.bool
 };
 
 export default CustomHeader;
