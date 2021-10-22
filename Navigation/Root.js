@@ -9,6 +9,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from "react-native-reanimated";
 import AuthRoute from "./AuthRoute";
+import MainRoute from "./MainRoute";
 
 const fall = new Animated.Value(1);
 
@@ -79,8 +80,9 @@ class Root extends React.Component{
         return(
             <View style={{flex: 1}}>
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName='AuthRoute' screenOptions={{headerShown: false}}>
+                    <Stack.Navigator initialRouteName='MainRoute' screenOptions={{headerShown: false}}>
                         <Stack.Screen name='AuthRoute' component={AuthRoute}/>
+                        <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false }}/>
                     </Stack.Navigator>
                 </NavigationContainer>
              {this.renderShdow()}

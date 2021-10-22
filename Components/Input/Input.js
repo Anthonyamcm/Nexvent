@@ -89,7 +89,7 @@ class CustomInput extends React.Component {
     getTitleStyle = () => {
         return {
             fontFamily: this.props.fontFamily,
-            marginStart: 5,
+            marginStart: 0,
             fontWeight: this.props.titleFontWeight,
             display: (this.props.title === undefined || this.props.title === null) ? 'none' : 'flex',
             color: this.props.titleColor

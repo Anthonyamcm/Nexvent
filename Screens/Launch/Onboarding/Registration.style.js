@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: 250,
         alignItems: 'center',
-        fontFamily: 'IBMPlexSans-Regular'
     },
 
     codeInputContainer: {
@@ -88,7 +87,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 20,
         marginTop: 10,
-        fontFamily: 'IBMPlexSans-Regular'
     },
     pinIcon: {
         alignItems: 'center',
