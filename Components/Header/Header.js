@@ -9,7 +9,7 @@ import {
 
 import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Icons from "react-native-vector-icons/Ionicons";
 
 
 class CustomHeader extends React.Component {
@@ -22,20 +22,18 @@ class CustomHeader extends React.Component {
                     onPress={() => this.props.onBackPressed()}
                     hitSlop={{ top: 25, bottom: 25, left: 25, right: 25 }}>
 
-                {this.props.shouldShowCross && (
-                    <MaterialCommunityIcons
-                        name='close'
-                        size={35}
-                        color={'black'} />
-                )
-                }
-                {this.props.shouldShowCross != true && (
-                    <MaterialCommunityIcons
-                        name='chevron-left'
-                        size={35}
-                        color={'black'} />
-                )
-                }
+               {this.props.isModal &&(
+                   <Icons
+                   name='close'
+                   size={35}
+                   color={'black'} />
+               )}
+               {!this.props.isModal && (
+                <Icons
+                    name='md-chevron-back-outline'
+                    size={35}
+                    color={'black'} />
+               )}
                 </TouchableOpacity>
 
                 <Text style={styles.title}>{this.props.title}</Text>
@@ -50,9 +48,9 @@ const styles = StyleSheet.create({
         left: 50,
         right: 50,
         alignSelf: 'center',
-        fontSize: 26,
-        textAlign: 'left',
-        fontFamily: 'GTEestiDisplay-Medium'
+        fontSize: 22,
+        textAlign: 'center',
+        fontFamily: 'GTEestiDisplay-Regular'
     },
 
     container: {
@@ -73,7 +71,7 @@ const styles = StyleSheet.create({
 CustomHeader.propTypes = {
     onBackPressed: PropTypes.func,
     title: PropTypes.string,
-    shouldShowCross: PropTypes.bool
+    isModal: PropTypes.bool
 };
 
 export default CustomHeader;

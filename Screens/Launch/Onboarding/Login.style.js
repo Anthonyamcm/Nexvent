@@ -1,22 +1,37 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet , Dimensions } from "react-native";
+
+const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     mainContainer: {
-        alignItems: 'center',
-        height: '100%',
+        backgroundColor: 'white',
+        flex: 1,
+        paddingVertical: 20,
+        paddingHorizontal: 30,
     },
-    top: {
-		paddingTop: 25,
-		marginHorizontal: 25,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center"
-	},
     title: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        padding: 5,
+        textAlign: 'left',
+        fontSize: 24,
+        marginTop: '5%',
+        fontFamily: 'GTEestiDisplay-Regular'
+    },
+    inputTitle: {
+        textAlign: 'left',
+        fontSize: 16,
+        fontFamily: 'GTEestiDisplay-Medium',
+        color: 'gray',
+    },
+    tosContainer: {
+        flexDirection: 'row',
+        textAlign: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        marginTop: height * 0.025,
+        fontFamily: 'GTEestiDisplay-Medium'
+    },
+    clickableText: {
+        fontFamily: 'GTEestiDisplay-Medium',
+        textDecorationLine: 'underline'
     }
 })
 

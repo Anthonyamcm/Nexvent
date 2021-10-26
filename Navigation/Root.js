@@ -1,7 +1,7 @@
 import React from "react";
 import {View,StyleSheet, TouchableOpacity} from 'react-native';
 
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
 
@@ -10,6 +10,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import Animated from "react-native-reanimated";
 import AuthRoute from "./AuthRoute";
 import MainRoute from "./MainRoute";
+import AccountContainer from "../Screens/Account/Account.container";
 
 const fall = new Animated.Value(1);
 
@@ -80,9 +81,11 @@ class Root extends React.Component{
         return(
             <View style={{flex: 1}}>
                 <NavigationContainer>
-                    <Stack.Navigator initialRouteName='MainRoute' screenOptions={{headerShown: false}}>
+                    <Stack.Navigator initialRouteName='AuthRoute' screenOptions={{headerShown: false}}>
                         <Stack.Screen name='AuthRoute' component={AuthRoute}/>
-                        <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false }}/>
+                        <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false, cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid }}/>
+
+                        <Stack.Screen name='Account' component={AccountContainer} options={{cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS}}/>
                     </Stack.Navigator>
                 </NavigationContainer>
              {this.renderShdow()}

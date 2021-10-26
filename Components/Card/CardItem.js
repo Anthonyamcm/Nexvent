@@ -9,10 +9,6 @@ const CardItem = ({
   image,
   name
 }) => {
-  // Custom styling
-  const fullWidth = Dimensions.get('window').width;
-  const fullHeight = Dimensions.get('window').height;
-
   return (
     <View style={styles.containerCardItem}>
       {/* IMAGE */}

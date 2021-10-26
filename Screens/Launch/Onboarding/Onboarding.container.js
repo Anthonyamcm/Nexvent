@@ -32,7 +32,7 @@ class OnboardingContainer extends React.Component {
                     <CustomButton
                         title='Register'
                         titleFontSize={24}
-                        fontFamilt={'GTEestiDisplay-Medium'}
+                        fontFamily={'GTEestiDisplay-Medium'}
                         textColor={'gray'}
                         style={{width: 200, paddingTop: 20}}
                         onPress={() => {this.props.navigation.navigate('Registration')}}/>

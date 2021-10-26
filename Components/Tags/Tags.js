@@ -6,7 +6,7 @@ import { openBottomSheet, updateState, closeBottomSheet } from "../../Navigation
 import TagsModal from '../../Screens/Modal/Tags.container';
 
 const onClickButton = () => {
-    updateState(TagsModal, 325);
+    updateState(TagsModal, 395);
     openBottomSheet();
   }
 

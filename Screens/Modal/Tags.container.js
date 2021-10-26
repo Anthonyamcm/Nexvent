@@ -62,7 +62,7 @@ class TagsModal extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-      marginVertical: 20,
+      marginVertical: 0,
       marginHorizontal: 30,
       justifyContent: 'space-between',
       paddingBottom: 50,
@@ -88,16 +88,15 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   title: {
-    marginHorizontal: 0,
     fontSize: 16,
     fontFamily: 'GTEestiDisplay-Medium'
   },
   tagGroup: {
-    marginTop: 0,
+    marginTop: 15,
     marginHorizontal: 0,
   },
   customTags: {
-    marginVertical: 0,
+    marginVertical: 30,
   },
   tagStyle: {
     marginTop: 4,
@@ -106,7 +105,8 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     marginRight: 12,
     paddingHorizontal: 24,
-    paddingVertical: 8,
+    paddingVertical: 12,
+    borderRadius: 18
   },
   textStyle: {
     color: '#666',

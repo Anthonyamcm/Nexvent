@@ -14,8 +14,7 @@ const MainRoute = props => {
   const [type, setType] = useState<'down' | 'up'>('down');
 
   const onClickButton = () => {
-    updateState(HomeSettings, 750);
-    openBottomSheet();
+      props.navigation.navigate('Account')
   }
 
   const _renderIcon = (routeName: string, selectTab: string) => {
