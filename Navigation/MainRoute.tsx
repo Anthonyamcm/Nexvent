@@ -45,7 +45,7 @@ const MainRoute = props => {
         borderTopLeftRight={true}
         strokeWidth={2}
         swipeEnabled={false}
-        initialRouteName="Likes"
+        initialRouteName="Home"
         renderCircle={({ selectTab, navigate }) => (
           <TouchableOpacity
               style={[type === 'down' ? styles.btnCircle : styles.btnCircleUp]} onPress={onClickButton}

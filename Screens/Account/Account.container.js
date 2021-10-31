@@ -3,6 +3,7 @@ import { SafeAreaView , View, Text} from "react-native";
 import styles from "./Account.style";
 import CustomHeader from "../../Components/Header/Header";
 import CustomButton from "../../Components/Button/Button";
+import * as Profile from "../../Components/Profile/Profile";
 
 class AccountContainer extends React.Component{
     render(){
@@ -29,10 +30,15 @@ class AccountContainer extends React.Component{
                         shadowOpacity: 0.5,
                         shadowRadius: 3.84,
                         elevation: 5}}
-                        onPress={() => {this.props.navigation.navigate('AuthRoute')}}/>
+                        onPress={() => this.logoutPressed()}/>
             </View>
             </SafeAreaView>
         )
+    }
+
+    logoutPressed = () => {
+        Profile.deleteUserDetails();
+        this.props.navigation.navigate('Onboarding');
     }
 }
 

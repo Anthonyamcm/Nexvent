@@ -11,6 +11,7 @@ import CustomInput from "../../../Components/Input/Input";
 import CheckBox from '@react-native-community/checkbox';
 import CustomButton from "../../../Components/Button/Button";
 import styles from './Registration.style'
+import * as API from '../../../Api/Api';
 
 const { height } = Dimensions.get('window');
 
@@ -228,7 +229,7 @@ class RegistrationContainer extends React.Component{
         }
     }
 
-    onRegistrationPressed = () => {
+    onRegistrationPressed = async () => {
         const {
             stepProgress,
             isTosChecked,
@@ -283,7 +284,36 @@ class RegistrationContainer extends React.Component{
         }
 
         if(email.length > 0 && isTosChecked){
-            this.props.navigation.navigate('Location')
+            try {
+                const data = {
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password,
+                };
+
+                const loginData ={
+                    email: this.state.email,
+                    password: this.state.password
+                }
+                const result = await API.REGISTER().doRegister(data)
+                    if (result.code === 200) {
+                        try {
+                            const result = await API.LOGIN().doLogin(loginData)
+                                if(result.status.code === 200){
+                                    API.LOGIN_SUCCESS(result.body);
+                                    this.props.navigation.navigate('Location');
+                                } else {
+                                    console.log(result)
+                                }
+                            } catch (error) {
+                                console.log(error)
+                            }
+                    }else{
+                        console.log(result)
+                    }
+            } catch (error) {
+                console.log(error.response);
+            }
         }
     }
 }

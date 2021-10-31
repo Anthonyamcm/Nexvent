@@ -5,6 +5,7 @@ import CustomInput from "../../../Components/Input/Input";
 import styles from "./Login.style";
 import CustomHeader from "../../../Components/Header/Header"
 import CustomButton from "../../../Components/Button/Button";
+import * as API from '../../../Api/Api';
 
 const { height } = Dimensions.get('window');
 
@@ -15,11 +16,11 @@ class LoginContainer extends React.Component{
         this.state = {
             email: '',
             password: '',
-            userData: null,
-            showNameInputError: false,
             showEmailInputError: false,
             showPasswordInputError: false,
+            showInputError: false
         }
+
     }
 
 
@@ -50,6 +51,7 @@ class LoginContainer extends React.Component{
                                 this.email = ref;
                             }}
                             value={email}
+                            autoCapitalize={'none'}
                             backgroundColor='white'
                             borderColor='white'
                             fontFamily={'GTEestiDisplay-Medium'}
@@ -75,7 +77,7 @@ class LoginContainer extends React.Component{
                         style={{ width: '100%'}}
                         />
                             </View>
-                            <Text style={this.getInvalidInputTextStyle()}>{'Password and email do not match'}</Text>
+                            <Text style={this.getInvalidInputTextStyle()}>{'Incorrect email or password'}</Text>
 
                             <View style={styles.tosContainer}>
                                 
@@ -97,7 +99,7 @@ class LoginContainer extends React.Component{
                                     elevation: 5}}
                                     shouldHaveGradient={true}
                                     titleFontSize={20}
-                                    onPress={() => this.onRegistrationPressed()}
+                                    onPress={() => this.onLoginPressed()}
                                     title={'Log In'} />
                             </View>
                     </TouchableWithoutFeedback>
@@ -149,6 +151,35 @@ class LoginContainer extends React.Component{
             textAlign: 'center',
             overflow: 'hidden',
             fontFamily: 'GTEestiDisplay-Medium'
+        }
+    }
+
+    onLoginPressed = async () => {
+        try {
+            const data = {
+                email: this.state.email,
+                password: this.state.password,
+            };
+            const result = await API.LOGIN().doLogin(data);
+                if (result.status.code === 200) {
+                    this.setState({
+                        showInputError: false,
+                        showEmailInputError: false,
+                        showPasswordInputError: false
+                    }, async () => {
+                        API.LOGIN_SUCCESS(result.body);
+                        this.props.navigation.navigate('MainRoute');
+                    })
+                    
+                }else{
+                    this.setState({
+                        showInputError: true,
+                        showEmailInputError: true,
+                        showPasswordInputError: true
+                    })
+                }
+        } catch (error) {
+            console.log(error.response);
         }
     }
 }

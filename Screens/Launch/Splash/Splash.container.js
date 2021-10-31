@@ -2,6 +2,7 @@ import React from "react";
 import { SafeAreaView, View } from "react-native";
 import Animated, { EasingNode } from "react-native-reanimated";
 import styles from "./Splash.style";
+import * as Profile from "../../../Components/Profile/Profile"
 
 class SplashContainer extends React.Component{
     constructor(props){
@@ -36,10 +37,27 @@ class SplashContainer extends React.Component{
         this.checkForUser();
     }
 
-    checkForUser = () => {
+    checkForUser = async () => {
+        const userDetailsJson = await Profile.getUserDetails();
+        let userDetails;
+        try {
+            userDetails = JSON.parse(userDetailsJson);
+            if (userDetails.email === null || userDetails.email === undefined)
+                userDetails = JSON.parse(userDetails);
+        } catch (error) { }
 
         setTimeout(() => {
-            this.props.navigation.navigate('Onboarding');
+            if (userDetails !== null && userDetails.email !== undefined) {
+            
+                Profile.setFastUserDetails(userDetails);
+                
+
+                this.props.navigation.navigate('MainRoute');
+                
+            } else {
+            
+                this.props.navigation.navigate('Onboarding');
+            }
         },1000);
         
     }
