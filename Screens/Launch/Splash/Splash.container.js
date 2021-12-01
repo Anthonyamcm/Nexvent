@@ -1,8 +1,9 @@
 import React from "react";
-import { SafeAreaView, View } from "react-native";
+import { AppRegistry, SafeAreaView, View } from "react-native";
 import Animated, { EasingNode } from "react-native-reanimated";
 import styles from "./Splash.style";
 import * as Profile from "../../../Components/Profile/Profile"
+import * as API from "../../../Api/Api"
 
 class SplashContainer extends React.Component{
     constructor(props){
@@ -51,7 +52,7 @@ class SplashContainer extends React.Component{
             
                 Profile.setFastUserDetails(userDetails);
                 
-
+                API.LOGIN_SUCCESS(userDetails)
                 this.props.navigation.navigate('MainRoute');
                 
             } else {

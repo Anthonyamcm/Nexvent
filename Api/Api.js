@@ -15,7 +15,7 @@ let headers = {};
 headers = {
 	'session-id': deviceId,
 	platform: deviceModel,
-	os: deviceOS
+	os: deviceOS,
 };
 
 const instance = axios.create({
@@ -72,6 +72,11 @@ const REGISTER = () => ({
 		instance.post('/users/register', objectData, { headers }),
 });
 
+const USER = () => ({
+	getEvents: () => 
+		instance.get('/events', {headers}),
+})
+
 const getToken = () => {
 	return instance.defaults.headers.common.Authorization;
 }
@@ -80,5 +85,6 @@ export {
 	LOGIN,
 	LOGIN_SUCCESS,
 	REGISTER,
+	USER,
 	getToken
 };

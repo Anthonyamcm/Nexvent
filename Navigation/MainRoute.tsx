@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Home from '../Screens/Home/Home.container';
+import HomeContainer from '../Screens/Home/Home.container';
 import HomeSettings from '../Screens/Home/Settings.container';
 import Likes from '../Screens/Likes/Likes.container';
 import { openBottomSheet, updateState, closeBottomSheet } from "./Root";
@@ -65,7 +65,7 @@ const MainRoute = props => {
         <CurvedBottomBar.Screen
           name="Home"
           position="left"
-          component={() => <Home/>}
+          component={() => <HomeContainer/>}
         />
         <CurvedBottomBar.Screen
           name="Likes"
