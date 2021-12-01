@@ -1,10 +1,10 @@
 import React from 'react';
-import { View} from 'react-native';
+import { View, TouchableOpacity, Text} from 'react-native';
 import CardStack from '../../Components/Card/CardStack';
 import Card from '../../Components/Card/Card';
 import CardItem from '../../Components/Card/CardItem';
 import styles from './Home.style';
-import Tags from '../../Components/Tags/Tags';
+import Icon from 'react-native-vector-icons/Ionicons'
 import Location from '../../Components/Location/Location';
 import * as API from '../../Api/Api';
 
@@ -72,7 +72,10 @@ componentDidMount() {
           <View style={styles.containerHome}>
             <View style={styles.top}>
             <Location/>
-            <Tags/>
+            <TouchableOpacity style={styles.tags} onPress={() => {this.props.navigation.navigate('Tags')}}>
+              <Text style={styles.tagsText}>
+                <Icon name="md-pricetags-outline" size={24}/> Tags</Text>
+            </TouchableOpacity>
             </View>
             {!isLoading && (
               <CardStack loop={true} verticalSwipe={false} renderNoMoreCards={() => null} ref={swiper => (this.swiper = swiper)}>

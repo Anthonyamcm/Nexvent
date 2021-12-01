@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
 import CustomButton from '../../Components/Button/Button';
 import { closeBottomSheet } from '../../Navigation/Root';
+import CustomHeader from '../../Components/Header/Header';
 import TagGroup, {Tag} from 'react-native-tag-group';
 
-const tags = ['Flutter', 'React Native', 'Ionic', 'Cordova', 'Weex', 'Taro', 'VasSonic', 'WeChat Mini Program'];
+const tags = ['Flutter', 'React Native', 'Ionic', 'Cordova', 'Weex', 'Taro', 'VasSonic', 'WeChat Mini Program','Flutter', 'React Native', 'Ionic', 'Cordova', 'Weex', 'Taro', 'VasSonic', 'WeChat Mini Program'];
 
 
-class TagsModal extends React.Component {
+class TagsContainer extends React.Component {
   
 
   componentDidMount() {
@@ -27,7 +28,9 @@ class TagsModal extends React.Component {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.customTags}>
-        <Text style={styles.title}>{'Tags'}</Text>
+      <CustomHeader
+              title={'Tags'}
+              onBackPressed={() => this.props.navigation.goBack(null)} />
         <TagGroup ref={ref => this.customTagGroup = ref}
                   style={styles.tagGroup}
                   source={tags}
@@ -115,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TagsModal;
+export default TagsContainer;
