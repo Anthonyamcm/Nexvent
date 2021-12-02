@@ -6,7 +6,8 @@ import {
     View,
     TouchableOpacity,
     Switch,
-    StyleSheet
+    StyleSheet,
+    ActivityIndicator
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -35,7 +36,7 @@ class CustomButton extends React.Component {
                 android_ripple={{ color: this.props.pressColor }}
                 disabled={this.props.isDisabled}
                 activeOpacity={0.7}>
-                {this.props.shouldHaveGradient && (
+                {this.props.shouldHaveGradient ? (
                 <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={this.props.gradientColours} style={styles.gradient}>
                 <ImageView
                     style={this.getIconStyle()}
@@ -44,10 +45,14 @@ class CustomButton extends React.Component {
                     color={this.props.iconColor}
                     size={this.props.iconSize} />
 
-                <View style={this.getTextWrapperStyle()}>
-                    <Text style={this.getTitleStyle()}>{this.props.title}</Text>
-                    <Text style={this.getSubtitleStyle()}>{this.props.subtitle}</Text>
-                </View>
+                {this.props.isLoading ? (
+                    <ActivityIndicator color={this.props.textColor} size={28}/>
+                ) : (
+                    <View style={this.getTextWrapperStyle()}>
+                        <Text style={this.getTitleStyle()}>{this.props.title}</Text>
+                        <Text style={this.getSubtitleStyle()}>{this.props.subtitle}</Text>
+                    </View>
+                )}
                 
 
                 {this.props.shouldShowSwitch && (
@@ -60,21 +65,23 @@ class CustomButton extends React.Component {
                     </Switch>
                 )}
                 </LinearGradient>
-                )}
-                {!this.props.shouldHaveGradient && (
+                ) : (
                 <View>
-                <ImageView
+                    <ImageView
                     style={this.getIconStyle()}
                     source={this.props.icon}
                     name={this.props.icon}
                     color={this.props.iconColor}
                     size={this.props.iconSize} />
 
-                <View style={this.getTextWrapperStyle()}>
-                    <Text style={this.getTitleStyle()}>{this.props.title}</Text>
-                    <Text style={this.getSubtitleStyle()}>{this.props.subtitle}</Text>
-                </View>
-                
+                {this.props.isLoading ? (
+                    <ActivityIndicator color={this.props.textColor} size={32}/>
+                ) : (
+                    <View style={this.getTextWrapperStyle()}>
+                        <Text style={this.getTitleStyle()}>{this.props.title}</Text>
+                        <Text style={this.getSubtitleStyle()}>{this.props.subtitle}</Text>
+                    </View>
+                )}
 
                 {this.props.shouldShowSwitch && (
                     <Switch
@@ -164,7 +171,8 @@ CustomButton.defaultProps = {
     fontFamily: 'GTEestiDisplay-Medium',
     shouldShowSwitch: false,
     shouldHaveGradient: false,
-    gradientColours: ['#00c6ff','#0072ff']
+    gradientColours: ['#00c6ff','#0072ff'],
+    isLoading: false
 };
 
 CustomButton.propTypes = {
@@ -188,7 +196,8 @@ CustomButton.propTypes = {
     onSwitchValueChanged: PropTypes.func,
     isSwitchEnabled: PropTypes.bool,
     shouldHaveGradient: PropTypes.bool,
-    gradientColours: PropTypes.array
+    gradientColours: PropTypes.array,
+    isLoading: PropTypes.bool
 };
 
 const styles = StyleSheet.create({

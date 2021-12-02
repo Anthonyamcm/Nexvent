@@ -1,72 +1,147 @@
 import React from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator} from 'react-native';
 import CustomButton from '../../Components/Button/Button';
-import { closeBottomSheet } from '../../Navigation/Root';
 import CustomHeader from '../../Components/Header/Header';
-import TagGroup, {Tag} from 'react-native-tag-group';
+import TagsView from '../../Components/Tag/TagView';
+import * as Profile from '../../Components/Profile/Profile'
+import * as API from '../../Api/Api'
 
-const tags = ['Flutter', 'React Native', 'Ionic', 'Cordova', 'Weex', 'Taro', 'VasSonic', 'WeChat Mini Program','Flutter', 'React Native', 'Ionic', 'Cordova', 'Weex', 'Taro', 'VasSonic', 'WeChat Mini Program'];
+const tags = ['Swift', 'Kotlin', 'C#', 'Haskell', 'Java']
 
 
 class TagsContainer extends React.Component {
-  
+  constructor(props){
+    super(props)
 
-  componentDidMount() {
-    this.customTagGroup.select(0);
+    this.state = {
+      selected: [],
+      isSaving: false
+    }
+
   }
 
-  onTagPress = (selected, selectedIndex) => {
-    // For safety, check params before using them.
-    if (!this.state.singleChoiceMode && Array.isArray(selected)) {
-      this.console(`selected tags = [${selected.join(', ')}]`);
+addOrRemove = (array, item) => {
+    const exists = array.includes(item)
+  if (exists) {
+      return array.filter((c) => { return c !== item })
     } else {
-      this.console(`selected tag (value, index) = (${selected}, ${selectedIndex})`);
+      const result = array
+      result.push(item)
+      return result
     }
   }
 
-  render() {
-  return (
-    <View style={styles.mainContainer}>
-      <View style={styles.customTags}>
-      <CustomHeader
-              title={'Tags'}
-              onBackPressed={() => this.props.navigation.goBack(null)} />
-        <TagGroup ref={ref => this.customTagGroup = ref}
-                  style={styles.tagGroup}
-                  source={tags}
-                  tagStyle={styles.tagStyle}
-                  activeTagStyle={{
-                    backgroundColor: '#0072ff',
-                  }}
-                  textStyle={styles.textStyle}
-                  activeTextStyle={{
-                    color: 'white',
-                  }}/>
-      </View>
-      <CustomButton
-         title='Apply'
-         shouldHaveGradient={true}
-         titleFontSize={24}
-         fontFamilt={'GTEestiDisplay-Medium'}
-         style={{width: 350, paddingTop: 0, 
-          shadowColor: "#0072ff",
-          shadowOffset: {
-              width: 0,
-              height: 2,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 3.84,
-          elevation: 5}}
-         onPress={() => closeBottomSheet()}/>
-    </View>
-  );
+onPress = (tag) => {
+    let {selected} = this.state
+
+    selected = this.addOrRemove(selected, tag)
+
+    this.setState({
+      selected
+      })
+    }
+
+  updateUserTags = async () => {
+
+    const userDetails = Profile.userDetails;
+
+    this.setState({
+      isSaving: true
+    })
+
+      try {
+        const data = {
+          tags: this.state.selected
         }
+        const result = await API.USER().updateTags(userDetails.id, data)
+
+        if(result.code === 200){
+          this.setState({
+            isSaving: false
+          })
+          this.props.navigation.goBack(null)
+        } else {
+          // nothing yet
+        }
+
+      } catch (error) {}
+
+  }
+
+  getUserTags = async () => {
+
+    const userDetails = Profile.userDetails;
+
+    try{
+
+      const result = await API.USER().getTags(userDetails.id)
+      if(result.code === 200){
+        this.setState({
+          selected: result.user.tags
+        })
+      }else{
+        // nothing yet
+      }
+    } catch (error) {}
+
+  }
+
+  componentDidMount(){
+    this.getUserTags()
+  }
+
+  
+
+  render() {
+
+    const {
+          selected,
+          isSaving
+        } = this.state
+
+    return (
+      <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
+        <View style={styles.mainContainer}>
+          
+          <CustomHeader
+                  title={'Tags'}
+                  onBackPressed={() => this.props.navigation.goBack(null)} />
+
+          <TagsView
+            all={tags}
+            selected={selected}
+            isExclusive={false}
+            onPress = {this.onPress}/>
+
+          <View style={styles.bottom}>
+
+              <CustomButton
+                  title='Apply'
+                  shouldHaveGradient={true}
+                  titleFontSize={24}
+                  isLoading={isSaving}
+                  onPress={() => this.updateUserTags()}
+                  style={{shadowColor: "#0072ff",
+                          shadowOffset: {
+                          width: 0,
+                          height: 2,
+                          },
+                          shadowOpacity: 0.5,
+                          shadowRadius: 3.84,
+                          elevation: 5}}
+                          />
+
+          </View>
+      </View>
+    </SafeAreaView>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
   mainContainer: {
       marginVertical: 0,
-      marginHorizontal: 30,
+      marginHorizontal: 0,
       justifyContent: 'space-between',
       paddingBottom: 50,
   },
@@ -116,6 +191,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  bottom:{
+    bottom:0,
+    paddingHorizontal: 30
+},
+mainContainer: {
+  backgroundColor: 'white',
+  flex: 1,
+},
 });
 
 export default TagsContainer;

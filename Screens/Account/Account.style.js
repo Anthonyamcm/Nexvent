@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
     },
     bottom:{
-        paddingHorizontal: 30,
+        
         bottom:0
     }
 })
