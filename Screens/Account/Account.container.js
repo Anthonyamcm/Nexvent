@@ -3,7 +3,6 @@ import { SafeAreaView , View, Text} from "react-native";
 import styles from "./Account.style";
 import * as Profile from '../../Components/Profile/Profile'
 import CustomButton from "../../Components/Button/Button";
-import * as Profile from "../../Components/Profile/Profile";
 
 class AccountContainer extends React.Component{
     render(){
