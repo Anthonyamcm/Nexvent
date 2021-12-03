@@ -26,28 +26,15 @@ const colors = {
 
 const styles = StyleSheet.create({
 	containerHome: { 
-        marginHorizontal: 10 
+		flex:1,
+		flexDirection: 'column',
+        marginHorizontal: 10,
     },
     top: {
-		paddingTop: 45,
 		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		justifyContent: 'flex-start',
+		paddingHorizontal: 15
 	},
-    tags: {
-		padding: 10,
-		borderRadius: 8,
-		width: 100,
-		shadowOpacity: 0.05,
-		shadowRadius: 10,
-		shadowColor: 'black',
-		shadowOffset: { height: 0, width: 0 }
-	},
-	tagsText: {
-		fontFamily: 'GTEestiDisplay-Regular',
-		fontSize: 20,
-	},
-	
 });
 
 export default styles

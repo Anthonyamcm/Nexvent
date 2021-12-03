@@ -18,7 +18,8 @@ const MainRoute = () => {
         inactiveTintColor: "#222222"
       }}
       appearance={{
-        floating: true
+        floating: true,
+        shadow: true
       }}
     >
         <Tabs.Screen
@@ -57,7 +58,7 @@ const MainRoute = () => {
           options={{
             tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                    name="apps-outline"
+                    name="md-heart-outline"
                     size={size ? size : 24}
                     color={focused ? color : "#222222"}
                     focused={focused}

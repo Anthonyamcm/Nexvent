@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Text} from 'react-native';
+import { View,SafeAreaView, Image, Text} from 'react-native';
 import CardStack from '../../Components/Card/CardStack';
 import Card from '../../Components/Card/Card';
 import CardItem from '../../Components/Card/CardItem';
 import styles from './Home.style';
-import Icon from 'react-native-vector-icons/Ionicons'
-import Location from '../../Components/Location/Location';
 import * as API from '../../Api/Api';
 
 
@@ -22,7 +20,7 @@ class HomeContainer extends React.Component {
   }
 
 
-  getTransactionsByFilter = async () => {
+  getEventsByFilter = async () => {
 
     const {
         data
@@ -57,7 +55,7 @@ class HomeContainer extends React.Component {
 }
 
 componentDidMount() {
-  this.getTransactionsByFilter();
+  this.getEventsByFilter();
 }
   
 
@@ -69,14 +67,14 @@ componentDidMount() {
     } = this.state
 
       return (
+        <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
           <View style={styles.containerHome}>
             <View style={styles.top}>
-            <Location/>
-            <TouchableOpacity style={styles.tags} onPress={() => {this.props.navigation.navigate('Tags')}}>
-              <Text style={styles.tagsText}>
-                <Icon name="md-pricetags-outline" size={24}/> Tags</Text>
-            </TouchableOpacity>
-            </View>
+              <View style={{justifyContent: 'flex-start', alignItems: 'flex-end', flexDirection: 'row'}}>
+                <Image resizeMode='contain' source={require('../../Images/nexvent-logo.png')} style={{maxHeight: 40, maxWidth:40, alignSelf: 'flex-start'}}/>
+                <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 24}}> Nexvent </Text>
+              </View>
+            </View>           
             {!isLoading && (
               <CardStack loop={true} verticalSwipe={false} renderNoMoreCards={() => null} ref={swiper => (this.swiper = swiper)}>
               {data.map((card, index) => (
@@ -85,6 +83,7 @@ componentDidMount() {
               </CardStack>
             )}
           </View>
+        </SafeAreaView>
       );
   }
 };

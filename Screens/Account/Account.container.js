@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView , View, Text} from "react-native";
 import styles from "./Account.style";
-import CustomHeader from "../../Components/Header/Header";
+import * as Profile from '../../Components/Profile/Profile'
 import CustomButton from "../../Components/Button/Button";
 import * as Profile from "../../Components/Profile/Profile";
 
@@ -9,33 +9,11 @@ class AccountContainer extends React.Component{
     render(){
         return(
             <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
-
-                <CustomHeader
-                    title={'Account'}
-                    isModal={true}
-                    onBackPressed={() => this.props.navigation.goBack(null)} />
-
-                <View style={styles.mainContainer}>
-
+                <View style={styles.containerHome}>
+                    <View style={styles.top}>
+                        <Text></Text>
+                    </View>
                 </View>
-
-                <View style={styles.bottom}>
-                    <CustomButton
-                        title='Log Out'
-                        shouldHaveGradient={true}
-                        gradientColours={['#ef473a','#cb2d3e']}
-                        titleFontSize={24}
-                        style={{shadowColor: "#cb2d3e",
-                                shadowOffset: {
-                                width: 0,
-                                height: 2,
-                                },
-                                shadowOpacity: 0.5,
-                                shadowRadius: 3.84,
-                                elevation: 5}}
-                                onPress={() => this.logoutPressed()}/>
-                </View>
-                
             </SafeAreaView>
         )
     }
