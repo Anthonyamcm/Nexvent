@@ -3,7 +3,7 @@ import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeContainer from '../Screens/Home/Home.container';
 import AccountContainer from '../Screens/Account/Account.container';
-import Likes from '../Screens/Likes/Likes.container';
+import LikesContainer from '../Screens/Likes/Likes.container'
 
 const MainRoute = () => {
 
@@ -18,7 +18,6 @@ const MainRoute = () => {
         inactiveTintColor: "#222222"
       }}
       appearance={{
-        floating: true,
         shadow: true
       }}
     >
@@ -54,7 +53,7 @@ const MainRoute = () => {
         />
         <Tabs.Screen
           name="Likes"
-          component={Likes}
+          component={LikesContainer}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons

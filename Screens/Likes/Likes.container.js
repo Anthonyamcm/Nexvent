@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text} from 'react-native';
+import { View, Text, SafeAreaView} from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import styles from './Likes.style';
 
-const Likes = () => {
+class LikesContainer extends React.Component{
+  render(){
 
   const [items, setItems] = React.useState([
     { name: 'TURQUOISE', code: '#1abc9c' },
@@ -29,23 +30,21 @@ const Likes = () => {
   ]);
 
     return (
-      <View style={{ flex: 1}}>
-      <FlatGrid
-      itemDimension={130}
-      data={items}
-      style={styles.gridView}
-      // staticDimension={300}
-      // fixed
-      spacing={10}
-      renderItem={({ item }) => (
-        <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
-          <Text style={styles.itemName}>{item.name}</Text>
-          <Text style={styles.itemCode}>{item.code}</Text>
-        </View>
-      )}
-    />
-    </View>
+      <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
+          <FlatGrid
+            itemDimension={130}
+            data={items}
+            spacing={10}
+            renderItem={({ item }) => (
+              <View style={[styles.itemContainer, { backgroundColor: item.code }]}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemCode}>{item.code}</Text>
+              </View>
+            )}
+          />
+    </SafeAreaView>
     );
+    }
   };
   
-  export default Likes;
+  export default LikesContainer;

@@ -10,10 +10,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 	},
-    gridView: {
-        flex: 1,
-        marginTop: 50
-      },
+    
       itemContainer: {
         justifyContent: 'flex-end',
         borderRadius: 5,

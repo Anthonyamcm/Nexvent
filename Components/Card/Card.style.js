@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     containerCardItem: {
 		borderRadius: 12,
       	width: DIMENSION_WIDTH - 40,
-      	height: DIMENSION_HEIGHT - 210,
-      	paddingTop: 0,
+      	height: DIMENSION_HEIGHT - 220,
+      	paddingTop: 10,
       	margin: 10,
       	shadowOpacity: 0.3,
 		shadowRadius: 10,

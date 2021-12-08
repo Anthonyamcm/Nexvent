@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { TouchableOpacity as Pressable } from 'react-native-gesture-handler';
 
@@ -38,9 +39,8 @@ class CustomButton extends React.Component {
                 activeOpacity={0.7}>
                 {this.props.shouldHaveGradient ? (
                 <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={this.props.gradientColours} style={styles.gradient}>
-                <ImageView
+                <Icon
                     style={this.getIconStyle()}
-                    source={this.props.icon}
                     name={this.props.icon}
                     color={this.props.iconColor}
                     size={this.props.iconSize} />
@@ -67,9 +67,8 @@ class CustomButton extends React.Component {
                 </LinearGradient>
                 ) : (
                 <View>
-                    <ImageView
+                    <Icon
                     style={this.getIconStyle()}
-                    source={this.props.icon}
                     name={this.props.icon}
                     color={this.props.iconColor}
                     size={this.props.iconSize} />
@@ -111,7 +110,7 @@ class CustomButton extends React.Component {
             fontFamily: this.props.fontFamily,
             color: this.props.textColor,
             fontSize: this.props.titleFontSize,
-            textDecorationLine: this.props.titleTextDecorationLine
+            textDecorationLine: this.props.titleTextDecorationLine,
         }
     }
 
@@ -130,7 +129,7 @@ class CustomButton extends React.Component {
             width: this.props.iconSize,
             height: this.props.iconSize,
             resizeMode: 'contain',
-            marginEnd: 15,
+            marginEnd: 0,
             marginTop: 'auto',
             marginBottom: 'auto',
             display: (this.props.icon === null || this.props.icon === undefined) ? 'none' : 'flex',

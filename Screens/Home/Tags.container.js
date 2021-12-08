@@ -1,13 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ActivityIndicator} from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import CustomButton from '../../Components/Button/Button';
 import CustomHeader from '../../Components/Header/Header';
 import TagsView from '../../Components/Tag/TagView';
 import * as Profile from '../../Components/Profile/Profile'
 import * as API from '../../Api/Api'
-
-const tags = ['Swift', 'Kotlin', 'C#', 'Haskell', 'Java']
-
+import styles from './Tags.style'
 
 class TagsContainer extends React.Component {
   constructor(props){
@@ -99,14 +97,18 @@ onPress = (tag) => {
           isSaving
         } = this.state
 
+    const tags = ['Swift', 'Kotlin', 'Really long tag', 'Haskell', 'Java']
+
     return (
       <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
-        <View style={styles.mainContainer}>
-          
-          <CustomHeader
-                  title={'Tags'}
-                  onBackPressed={() => this.props.navigation.goBack(null)} />
 
+        <CustomHeader
+            title={'Tags'}
+            onBackPressed={() => this.props.navigation.goBack(null)} />
+
+
+        <View style={styles.container}>
+          
           <TagsView
             all={tags}
             selected={selected}
@@ -138,67 +140,5 @@ onPress = (tag) => {
   }
 };
 
-const styles = StyleSheet.create({
-  mainContainer: {
-      marginVertical: 0,
-      marginHorizontal: 0,
-      justifyContent: 'space-between',
-      paddingBottom: 50,
-  },
-  content: {
-    height: 200,
-    width: 350,
-    marginBottom: 10,
-    borderColor: 'gray',
-    borderRadius: 6,
-    borderWidth: 1,
-    backgroundColor: 'white'
-  },
-  top: {
-		paddingBottom: 10,
-		marginHorizontal: 0,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center"
-	},
-  sideBySide :{
-    flexDirection: 'row',
-    marginTop: 30
-  },
-  title: {
-    fontSize: 16,
-    fontFamily: 'GTEestiDisplay-Medium'
-  },
-  tagGroup: {
-    marginTop: 15,
-    marginHorizontal: 0,
-  },
-  customTags: {
-    marginVertical: 30,
-  },
-  tagStyle: {
-    marginTop: 4,
-    marginHorizontal: 0,
-    backgroundColor: '#eee',
-    borderWidth: 0,
-    marginRight: 12,
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 18
-  },
-  textStyle: {
-    color: '#666',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  bottom:{
-    bottom:0,
-    paddingHorizontal: 30
-},
-mainContainer: {
-  backgroundColor: 'white',
-  flex: 1,
-},
-});
 
 export default TagsContainer;

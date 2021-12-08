@@ -1,28 +1,7 @@
-import React from "react";
-import { StyleSheet, Dimensions, Platform } from "react-native";
-const IS_IOS = Platform.OS === 'ios';
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
+import { StyleSheet , Dimensions} from "react-native";
 
-function wp (percentage) {
-    const value = (percentage * viewportWidth) / 100;
-    return Math.round(value);
-}
 
-const slideHeight = viewportHeight * 0.36;
-const slideWidth = wp(75);
-const itemHorizontalMargin = wp(2);
-
-export const sliderWidth = viewportWidth;
-export const itemWidth = slideWidth + itemHorizontalMargin * 2;
-
-const entryBorderRadius = 8;
-
-const colors = {
-    black: '#1a1917',
-    gray: '#888888',
-    background1: '#B721FF',
-    background2: '#21D4FD'
-};
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 	containerHome: { 
@@ -32,9 +11,43 @@ const styles = StyleSheet.create({
     },
     top: {
 		flexDirection: "row",
-		justifyContent: 'flex-start',
-		paddingHorizontal: 15
+		justifyContent: "space-between",
+		alignItems: "center",
+        paddingHorizontal: 15
 	},
+    bottom: {
+        paddingTop: 15
+    },
+    modalContentContainer: {
+        width: '100%',
+        height: '100%',
+    },
+    modalRow: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        textAlignVertical: 'center',
+        alignItems: 'center',
+        marginVertical: 5,
+
+    },
+    container: {paddingHorizontal: 32},
+    view: {
+        marginTop: 5,
+        backgroundColor: 'white',
+        width: width - 195,
+        marginVertical: 10,
+        marginRight: 20,
+        height: 75,
+        borderRadius: 8,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.15,
+        shadowRadius: 3,
+        elevation: 5,
+    }
 });
 
 export default styles

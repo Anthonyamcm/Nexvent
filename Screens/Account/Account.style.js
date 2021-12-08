@@ -17,6 +17,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         width: 150,
         height: DIMENSION_HEIGHT - 175
+    },
+    text: {
+        fontFamily: 'GTEestiDisplay-Medium',
+        fontSize: 26
     }
 })
 

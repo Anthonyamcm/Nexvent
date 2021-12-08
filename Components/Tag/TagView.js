@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Button } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import Tag from './Tag'
 
 class TagsView extends React.Component {
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
       flex: 1,
       flexDirection: 'row',
       flexWrap: 'wrap',
-      padding: 20
     }
   })
 

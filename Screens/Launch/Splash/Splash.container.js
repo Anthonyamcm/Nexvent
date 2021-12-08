@@ -52,7 +52,6 @@ class SplashContainer extends React.Component{
             
                 Profile.setFastUserDetails(userDetails);
 
-                console.log(userDetails)
                 
                 API.LOGIN_SUCCESS(userDetails)
                 this.props.navigation.navigate('MainRoute');

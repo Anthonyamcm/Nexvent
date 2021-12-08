@@ -301,7 +301,7 @@ class RegistrationContainer extends React.Component{
                             const result = await API.LOGIN().doLogin(loginData)
                                 if(result.status.code === 200){
                                     API.LOGIN_SUCCESS(result.body);
-                                    this.props.navigation.navigate('Location');
+                                    this.props.navigation.navigate('MainRoute');
                                 } else {
                                     console.log(result)
                                 }
