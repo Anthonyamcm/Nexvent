@@ -7,11 +7,11 @@ class TagsView extends React.Component {
     makeTags = () => {
             return this.props.all.map((tag, i) => {
               const on = this.props.selected.includes(tag)
-              const backgroundColor = on ? '#0072ff' : '#eee' 
+              const gradientOn = on ? true : false
               const textColor = on ? 'white'  : '#666' 
         return (
                 <Tag
-                  backgroundColor={backgroundColor}
+                  gradientOn={gradientOn}
                   textColor={textColor}
                   onPress={() => {
                     this.props.onPress(tag)

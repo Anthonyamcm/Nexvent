@@ -5,10 +5,12 @@ import Card from '../../Components/Card/Card';
 import CardItem from '../../Components/Card/CardItem';
 import CustomButton from '../../Components/Button/Button';
 import styles from './Home.style';
+import * as Profile from '../../Components/Profile/Profile'
 import * as API from '../../Api/Api';
 import Icon from 'react-native-vector-icons/Ionicons'
 import Modal from "react-native-modal";
 import Calendar from "react-native-calendar-range-picker";
+import TagsView from '../../Components/Tag/TagView';
 import { openBottomSheet, closeBottomSheet, updateState } from '../../Navigation/Root';
 
 const { width } = Dimensions.get('window');
@@ -19,10 +21,11 @@ class HomeContainer extends React.Component {
 
     this.state = {
         data: [],
-        tags: [],
+        selected: [],
         startDate: '',
         endDate: '',
         isLoading: false,
+        isSaving: false,
         isDateModalVisible: false,
         isLocationModalVisible: false,
         isTagsModalVisible: false
@@ -64,9 +67,78 @@ class HomeContainer extends React.Component {
     }
 }
 
+addOrRemove = (array, item) => {
+  const exists = array.includes(item)
+if (exists) {
+    return array.filter((c) => { return c !== item })
+  } else {
+    const result = array
+    result.push(item)
+    return result
+  }
+}
+
+onPress = (tag) => {
+  let {selected} = this.state
+
+  selected = this.addOrRemove(selected, tag)
+
+  this.setState({
+    selected
+    })
+  }
+
+  updateUserTags = async () => {
+
+    const userDetails = Profile.userDetails;
+
+    this.setState({
+      isSaving: true
+    })
+
+      try {
+        const data = {
+          tags: this.state.selected
+        }
+        const result = await API.USER().updateTags(userDetails.id, data)
+
+        if(result.code === 200){
+          this.setState({
+            isSaving: false,
+            isTagsModalVisible: false
+          })
+        } else {
+          // nothing yet
+        }
+
+      } catch (error) {}
+
+  }
+
+  getUserTags = async () => {
+
+    const userDetails = Profile.userDetails;
+
+    try{
+
+      const result = await API.USER().getTags(userDetails.id)
+      if(result.code === 200){
+        this.setState({
+          selected: result.user.tags
+        })
+      }else{
+        // nothing yet
+      }
+    } catch (error) {}
+
+  }
+
+
 componentDidMount() {
   this.getEventsByFilter();
+  this.getUserTags();
 }
+
   
 
   render(){
@@ -74,12 +146,16 @@ componentDidMount() {
     const { 
       data,
       isLoading,
+      isSaving,
       startDate,
       endDate,
+      selected,
       isDateModalVisible,
       isLocationModalVisible,
       isTagsModalVisible
     } = this.state
+
+    const tags = ['Swift', 'Kotlin', 'Really long tag', 'Haskell', 'Java']
 
       return (
         <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
@@ -120,7 +196,7 @@ componentDidMount() {
               />
               </View>
               <CustomButton
-                  title='Apply'
+                  title='Save'
                   shouldHaveGradient={true}
                   titleFontSize={24}
                   onPress={() => this.setState({isDateModalVisible: false})}
@@ -146,10 +222,30 @@ componentDidMount() {
             </View>
           </Modal>
           <Modal isVisible={isTagsModalVisible}>
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 16 }}>
-              <Text>Hello!</Text>
-
-              <Button title="Hide modal 3" onPress={() => this.setState({isTagsModalVisible: false})} />
+            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
+                <TagsView
+                all={tags}
+                selected={selected}
+                isExclusive={false}
+                onPress = {this.onPress}/>
+                <CustomButton
+                  title='Save'
+                  shouldHaveGradient={true}
+                  titleFontSize={24}
+                  isLoading={isSaving}
+                  onPress={() => this.updateUserTags()}
+                  style={{shadowColor: "#0072ff",
+                          shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                            shadowOpacity: 0.5,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                            position: 'absolute',
+                            bottom: 15,
+                            alignSelf: 'center'
+                            }}/>
             </View>
           </Modal>
         </SafeAreaView>

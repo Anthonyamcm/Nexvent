@@ -1,5 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View, Text, StyleSheet} from 'react-native'
+import LinearGradient from 'react-native-linear-gradient';
 
 class Tag extends React.Component {
 
@@ -7,9 +8,18 @@ class Tag extends React.Component {
         const styles = this.tagStyles()
         return(
             <TouchableOpacity style={styles.touchable} onPress={this.props.onPress}>
+              {this.props.gradientOn ? (
+              <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={['#00c6ff','#0072ff']} style={styles.gradient}>
                 <View style={styles.view}>
                     <Text style={styles.text}>{this.props.title}</Text>
                 </View>
+              </LinearGradient>
+              ) : (
+                <View style={styles.view}>
+                    <Text style={styles.text}>{this.props.title}</Text>
+                </View>
+              )}
+                
             </TouchableOpacity>
         )
     }
@@ -20,7 +30,7 @@ class Tag extends React.Component {
           view: {
             flexDirection: 'row',
             borderRadius: 23,
-            backgroundColor: this.props.backgroundColor,
+            backgroundColor: this.props.gradientOn ? '': '#eee',
             height: 46,
             alignItems: 'center',
             justifyContent: 'center',
@@ -37,6 +47,9 @@ class Tag extends React.Component {
             textAlign: 'center',
             color: this.props.textColor,
             fontFamily: 'GTEestiDisplay-Medium'
+          },
+          gradient: {
+            borderRadius: 23,
           }
         })
       }
