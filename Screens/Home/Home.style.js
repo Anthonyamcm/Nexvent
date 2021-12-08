@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
         marginRight: 20,
         height: 75,
         borderRadius: 16,
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        textAlignVertical: 'center',
+        alignItems: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
-    text: {
+    modalText: {
         fontFamily: 'GTEestiDisplay-Medium',
         fontSize: 26,
         paddingHorizontal: 20
@@ -101,6 +105,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingVertical: 15
     },
+    text: {
+        fontFamily: 'GTEestiDisplay-Medium',
+        fontSize: 15,
+        paddingVertical: 10,
+    }
 });
 
 export default styles

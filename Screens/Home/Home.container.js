@@ -8,6 +8,7 @@ import styles from './Home.style';
 import * as Profile from '../../Components/Profile/Profile'
 import * as API from '../../Api/Api';
 import Icon from 'react-native-vector-icons/Ionicons'
+import AntIcon from 'react-native-vector-icons/AntDesign'
 import Modal from "react-native-modal";
 import Calendar from "react-native-calendar-range-picker";
 import TagsView from '../../Components/Tag/TagView';
@@ -350,7 +351,10 @@ filtersRenderContent = () => {
                         shadowRadius: 3.84,
                         elevation: 5}}/>
           </View>
-          <View style={[styles.modalRow, {height: 150}]}>
+          <View style={[styles.modalRow, {paddingHorizontal: 32}]}>
+              <Text style={[styles.text, {color: 'lightgray'}]}>{'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'}</Text>
+          </View>
+          <View style={[styles.modalRow, {height: 100}]}>
           <ScrollView 
               ref={(scrollView) => { this.scrollView = scrollView; }}
               style={styles.container}
@@ -366,9 +370,36 @@ filtersRenderContent = () => {
                 bottom: 0,
                 right: 50,
               }}>
-              <TouchableOpacity onPress={() => this.setState({isDateModalVisible: true})} style={styles.view}/>
-              <TouchableOpacity onPress={() => this.setState({isLocationModalVisible: true})} style={styles.view}/>
-              <TouchableOpacity onPress={() => this.setState({isTagsModalVisible: true})} style={styles.view}/>
+              <TouchableOpacity onPress={() => this.setState({isDateModalVisible: true})} style={styles.view}>
+                <View style={{paddingHorizontal: 15}}>
+                  <AntIcon
+                    name="calendar"
+                    size={22}
+                    style={{paddingTop: 10}}
+                    />
+                    <Text style={styles.text}>{'1 Dec 2021 - 2 Dec 2021'}</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.setState({isLocationModalVisible: true})} style={styles.view}>
+              <View style={{paddingHorizontal: 15}}>
+                  <Icon
+                    name="md-location-outline"
+                    size={22}
+                    style={{paddingTop: 10}}
+                    />
+                    <Text style={styles.text}>{'Glasgow, Uk'}</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.setState({isTagsModalVisible: true})} style={styles.view}>
+              <View style={{paddingHorizontal: 15}}>
+                  <Icon
+                    name="md-pricetags-outline"
+                    size={22}
+                    style={{paddingTop: 10}}
+                    />
+                    <Text style={styles.text}>{'Drag, Show, 18+, Bingo ...'}</Text>
+                </View>
+              </TouchableOpacity>
             </ScrollView>
           </View>
         </View>
