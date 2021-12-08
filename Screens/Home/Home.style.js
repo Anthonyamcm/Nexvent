@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginRight: 20,
         height: 75,
-        borderRadius: 8,
+        borderRadius: 16,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -47,7 +47,60 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 3,
         elevation: 5,
-    }
+    },
+    modalHeader : {
+        backgroundColor: 'white',
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        textAlignVertical: 'center',
+        alignItems: 'center',
+        height: 60,
+        width: width - 40,
+        top: 0,
+        borderTopLeftRadius: 32,
+        borderTopRightRadius: 32,
+        zIndex: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    text: {
+        fontFamily: 'GTEestiDisplay-Medium',
+        fontSize: 26,
+        paddingHorizontal: 20
+    },
+    modalFooter: {
+        backgroundColor: 'white',
+        position: 'absolute',
+        height: 75,
+        width: width - 40,
+        bottom: 0,
+        paddingHorizontal: 15,
+        borderBottomLeftRadius: 32,
+        borderBottomRightRadius: 32,
+        zIndex: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    tagsContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        paddingBottom: 0,
+        paddingHorizontal: 15,
+        paddingVertical: 15
+    },
 });
 
 export default styles

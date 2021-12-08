@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import Modal from "react-native-modal";
 import Calendar from "react-native-calendar-range-picker";
 import TagsView from '../../Components/Tag/TagView';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { openBottomSheet, closeBottomSheet, updateState } from '../../Navigation/Root';
 
 const { width } = Dimensions.get('window');
@@ -179,7 +180,10 @@ componentDidMount() {
           </View>
           <Modal isVisible={isDateModalVisible}>
             <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
-              <View style={{paddingBottom: 75, paddingTop: 5}}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.text}>{'Calendar'}</Text>
+              </View>
+              <View style={{paddingVertical: 15}}>
               <Calendar
                 disabledBeforeToday={true}
                 startDate={startDate}
@@ -194,7 +198,8 @@ componentDidMount() {
                   selectedDayBackgroundColor: '#0072ff'
                 }}
               />
-              </View>
+            </View>
+            <View style={styles.modalFooter}>
               <CustomButton
                   title='Save'
                   shouldHaveGradient={true}
@@ -212,22 +217,85 @@ componentDidMount() {
                             bottom: 15,
                             alignSelf: 'center'
                             }}/>
+              </View>
             </View>
           </Modal>
           <Modal isVisible={isLocationModalVisible}>
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 16 }}>
-              <Text>Hello!</Text>
-
-              <Button title="Hide modal 2" onPress={() => this.setState({isLocationModalVisible: false})} />
+            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
+            <View style={{paddingVertical: 15, height: 300}}>
+            <GooglePlacesAutocomplete
+                            placeholder='Search '
+                            returnKeyType={'search'}
+                            enablePoweredByContainer={false}
+                            query={{
+                            key: 'AIzaSyDB3m9IgLnTqEBC-GxuHeuAHjSkyyJZwKw',
+                            language: 'en',
+                            types: '(cities)'
+                            }}
+                            fetchDetails={true}
+                            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
+                            styles={{
+                                textInput: {
+                                    height: 47.5,
+                                    fontSize: 16,
+                                    borderWidth: 1.5,
+                                    paddingVertical: 0,
+                                    borderRadius: 32,
+                                    paddingHorizontal:20,
+                                    fontFamily: 'GTEestiDisplay-Medium',
+                                    borderColor: 'lightgray',
+                                    backgroundColor: 'white',
+                                },
+                                description: {fontFamily: 'GTEestiDisplay-Medium', fontSize: 15},
+                                listView: {
+                                    borderRadius: 8,
+                                    borderWidth: 1.5,
+                                    borderColor: 'lightgray',
+                                    height: 'auto'
+                                },
+                                row: {
+                                    backgroundColor: '#FFFFFF',
+                                    height: 44,
+                                    flexDirection: 'row',
+                                },
+                            }}
+                            onPress={(data, details = null) => {
+                                console.log(data, details.geometry.location)
+                                }}
+                            debounce={200}/>
+              </View>
+              <CustomButton
+                  title='Save'
+                  shouldHaveGradient={true}
+                  titleFontSize={24}
+                  onPress={() => this.setState({isLocationModalVisible: false})}
+                  style={{shadowColor: "#0072ff",
+                          shadowOffset: {
+                              width: 0,
+                              height: 2,
+                            },
+                            shadowOpacity: 0.5,
+                            shadowRadius: 3.84,
+                            elevation: 5,
+                            position: 'absolute',
+                            bottom: 15,
+                            alignSelf: 'center'
+                            }}/>
             </View>
           </Modal>
           <Modal isVisible={isTagsModalVisible}>
             <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
+              <View style={styles.modalHeader}>
+                  <Text style={styles.text}>{'Tags'}</Text>
+              </View>
+              <ScrollView style={{paddingVertical: 75}}>
                 <TagsView
                 all={tags}
                 selected={selected}
                 isExclusive={false}
                 onPress = {this.onPress}/>
+              </ScrollView>
+              <View style={styles.modalFooter}>
                 <CustomButton
                   title='Save'
                   shouldHaveGradient={true}
@@ -246,6 +314,7 @@ componentDidMount() {
                             bottom: 15,
                             alignSelf: 'center'
                             }}/>
+              </View>
             </View>
           </Modal>
         </SafeAreaView>

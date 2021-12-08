@@ -50,6 +50,14 @@ class Tag extends React.Component {
           },
           gradient: {
             borderRadius: 23,
+            shadowColor: "#0072ff",
+            shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+            shadowOpacity: 0.5,
+            shadowRadius: 5,
+            elevation: 5
           }
         })
       }
