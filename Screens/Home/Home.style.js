@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         textAlignVertical: 'center',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 10,
 
     },
     container: {paddingHorizontal: 32},

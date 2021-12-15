@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from './Card.style';
-import { Text, View, Image, Dimensions, TouchableOpacity, ImageBackground } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View, ImageBackground } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
 
 const CardItem = ({
-  description,
+  location,
   image,
-  name
+  name,
+  tags
 }) => {
   return (
-    <View style={styles.containerCardItem}>
+    <View style={styles.Card}>
       {/* IMAGE */}
       <ImageBackground 
           source={image} 
@@ -18,16 +19,23 @@ const CardItem = ({
           width: null,
           height: null,
           }}
-          imageStyle={{ borderRadius: 12}}  
+          imageStyle={{ borderRadius: 32}}  
       >
           
-        <View style={styles.footerCardItem}>
+        <View style={styles.CardFooter}>
             {/* NAME */}
-          <Text style={styles.titleCardItem}>{name}</Text>
-            {/* DESCRIPTION */}
-            {description && (
-          <Text style={styles.descriptionCardItem}>{description}</Text>
-          )}
+          <Text style={styles.Title}>{name}</Text>
+           
+          <View style={styles.locationContainer}>
+            <Icon name="md-location-outline" size={32} color={'white'}/>
+            <Text style={styles.Location}>{location}</Text>
+          </View>
+
+          <View style={styles.tagContainer}>
+            {tags.map((tag, index) => 
+            <Text key={index} style={styles.tag}>{tag.label}</Text>
+            )}
+          </View>
         </View>
       </ImageBackground>
     </View>

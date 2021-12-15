@@ -161,7 +161,9 @@ componentDidMount() {
 
       return (
         <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
+
           <View style={styles.containerHome}>
+
             <View style={styles.top}>
               <View style={{justifyContent: 'flex-start', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <Image resizeMode='contain' source={require('../../Images/nexvent-logo.png')} style={{maxHeight: 40, maxWidth:40, alignSelf: 'flex-start'}}/>
@@ -170,19 +172,28 @@ componentDidMount() {
               <TouchableOpacity onPress={() => this.onFiltersPressed()}>
                   <Icon name={'md-filter'} size={32}/>
               </TouchableOpacity>
-            </View>           
+            </View>   
+
             {!isLoading && (
               <CardStack loop={true} verticalSwipe={false} renderNoMoreCards={() => null} ref={swiper => (this.swiper = swiper)}>
+
               {data.map((card, index) => (
-                <Card key={index}><CardItem image={require('../../Images/image01.jpg')} name={card.title} description={card.description}/></Card>
+                <Card key={index}>
+                  <CardItem image={require('../../Images/image01.jpg')} 
+                            name={card.title} 
+                            location={card.location.name} 
+                            tags={card.tags}/>
+                </Card>
                 ))}
+                
               </CardStack>
             )}
+
           </View>
           <Modal isVisible={isDateModalVisible}>
             <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
               <View style={styles.modalHeader}>
-                <Text style={styles.text}>{'Calendar'}</Text>
+                <Text style={styles.modalText}>{'Calendar'}</Text>
               </View>
               <View style={{paddingVertical: 15}}>
               <Calendar
@@ -287,7 +298,7 @@ componentDidMount() {
           <Modal isVisible={isTagsModalVisible}>
             <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
               <View style={styles.modalHeader}>
-                  <Text style={styles.text}>{'Tags'}</Text>
+                  <Text style={styles.modalText}>{'Tags'}</Text>
               </View>
               <ScrollView style={{paddingVertical: 75}}>
                 <TagsView
