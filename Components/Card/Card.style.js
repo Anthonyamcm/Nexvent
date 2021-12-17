@@ -5,7 +5,7 @@ const DIMENSION_WIDTH = Dimensions.get("window").width;
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-    Card: {
+    card: {
 		borderRadius: 32,
       	width: DIMENSION_WIDTH - 40,
       	height: DIMENSION_HEIGHT - 220,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		shadowOffset: { height: 0, width: 0 }
 	},
-	CardFooter: {
+	footer: {
 		display: 'flex',
 		flexDirection: 'column',
 		alignSelf: 'flex-end',
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     	borderRadius: 32,
 		fontWeight: 700,
 	},
-	Title: {
+	title: {
 		paddingTop: 15,
       	paddingBottom: 10,
       	color: 'white',
@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
 		display: "flex",
 		flexDirection: 'row',
 		paddingBottom: 15,
+		flexWrap: 'wrap'
 	},
 	tag: {
 		color: 'white',
@@ -65,7 +66,8 @@ const styles = StyleSheet.create({
 		paddingRight: 10,
 		paddingBottom: 7.5,
 		paddingLeft: 7.5,
-		marginHorizontal: 5
+		marginHorizontal: 5,
+		marginVertical: 2.5
 
 	}
 })

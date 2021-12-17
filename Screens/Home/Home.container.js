@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,SafeAreaView, Image, Text, TouchableOpacity, Dimensions, ScrollView, Button} from 'react-native';
+import { View,SafeAreaView, Image, Text, TouchableOpacity, Dimensions, ScrollView} from 'react-native';
 import CardStack from '../../Components/Card/CardStack';
 import Card from '../../Components/Card/Card';
 import CardItem from '../../Components/Card/CardItem';
@@ -177,15 +177,17 @@ componentDidMount() {
             {!isLoading && (
               <CardStack loop={true} verticalSwipe={false} renderNoMoreCards={() => null} ref={swiper => (this.swiper = swiper)}>
 
-              {data.map((card, index) => (
+              {data.map((data, index) => (
                 <Card key={index}>
-                  <CardItem image={require('../../Images/image01.jpg')} 
-                            name={card.title} 
-                            location={card.location.name} 
-                            tags={card.tags}/>
+                  <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('EventDetails', {data: data})}>
+                    <CardItem image={require('../../Images/image01.jpg')} 
+                              name={data.title} 
+                              location={data.location.name} 
+                              tags={data.tags}/>
+                  </TouchableOpacity>
                 </Card>
                 ))}
-                
+
               </CardStack>
             )}
 

@@ -3,11 +3,13 @@ import {View,StyleSheet, TouchableOpacity} from 'react-native';
 
 import { createStackNavigator, CardStyleInterpolators } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import Animated from "react-native-reanimated";
 import AuthRoute from "./AuthRoute";
 import MainRoute from "./MainRoute";
 
 import BottomSheet from 'reanimated-bottom-sheet';
+import EventDetailsContainer from "../Screens/Home/EventDetails.container";
 
 
 
@@ -71,7 +73,7 @@ class Root extends React.Component{
     
     render() {
 
-        const Stack = createStackNavigator();
+        const Stack = createSharedElementStackNavigator();
 
         bottomSheet = React.createRef();
 
@@ -81,6 +83,15 @@ class Root extends React.Component{
                     <Stack.Navigator initialRouteName='AuthRoute' screenOptions={{headerShown: false}}>
                         <Stack.Screen name='AuthRoute' component={AuthRoute}/>
                         <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false}}/>
+
+                        <Stack.Screen 
+                                    name='EventDetails' 
+                                    component={EventDetailsContainer} 
+                                    options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}
+                                    sharedElements={(route, otherRoute, showing) => {
+                                        return [`item.photo`];
+                                      }}/>
+
                     </Stack.Navigator>
                 </NavigationContainer>
 

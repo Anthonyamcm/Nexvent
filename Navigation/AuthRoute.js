@@ -12,7 +12,7 @@ export default function AuthRoute(){
     return(
         <Stack.Navigator initialRouteName='Splash' screenOptions={{headerShown: false}}>
             <Stack.Screen name='Splash' component={SplashContainer}/>
-            <Stack.Screen name='Onboarding' component={OnboardingContainer}options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}/>
+            <Stack.Screen name='Onboarding' component={OnboardingContainer} options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}/>
             <Stack.Screen name='Login' component={LoginContainer}/>
             <Stack.Screen name='Registration' component={RegistrationContainer}/>
         </Stack.Navigator>
