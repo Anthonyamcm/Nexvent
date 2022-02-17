@@ -37,12 +37,11 @@ const styles = StyleSheet.create({
         width: width - 195,
         marginVertical: 10,
         marginRight: 20,
-        height: 75,
+        height: 90,
         borderRadius: 16,
-        flexDirection: 'row',
-        justifyContent: "space-between",
-        textAlignVertical: 'center',
-        alignItems: 'center',
+        display: 'flex',
+		flexDirection: 'column',
+        alignSelf: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -51,6 +50,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 3,
         elevation: 5,
+    },
+    row: {
+        justifyContent: 'flex-start',
+		alignItems: 'center',
+		flexDirection: 'row',
+        paddingHorizontal: 15
     },
     modalHeader : {
         backgroundColor: 'white',
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'GTEestiDisplay-Medium',
-        fontSize: 15,
+        fontSize: 14,
         paddingVertical: 10,
     }
 });

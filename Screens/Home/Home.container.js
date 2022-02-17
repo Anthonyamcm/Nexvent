@@ -10,12 +10,19 @@ import * as API from '../../Api/Api';
 import Icon from 'react-native-vector-icons/Ionicons'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import Modal from "react-native-modal";
-import Calendar from "react-native-calendar-range-picker";
-import TagsView from '../../Components/Tag/TagView';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { openBottomSheet, closeBottomSheet, updateState } from '../../Navigation/Root';
+import moment from 'moment';
+import CalendarContainer from '../../Components/Modal/Calendar.container';
+import LocationContainer from '../../Components/Modal/Location.container';
+import TagsContainer from '../../Components/Modal/Tags.container';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
+
+const DATES_KEY = '@dates_key'
+const LOCATION_KEY = '@location_key'
+const TAGS_KEY = '@tags_key'
+
 
 class HomeContainer extends React.Component {
   constructor(props) {
@@ -23,9 +30,9 @@ class HomeContainer extends React.Component {
 
     this.state = {
         data: [],
-        selected: [],
-        startDate: '',
-        endDate: '',
+        tags: [],
+        dates: {startDate: null, endDate: null},
+        location: {},
         isLoading: false,
         isSaving: false,
         isDateModalVisible: false,
@@ -81,14 +88,30 @@ if (exists) {
 }
 
 onPress = (tag) => {
-  let {selected} = this.state
+  let {tags} = this.state
 
-  selected = this.addOrRemove(selected, tag)
+  tags = this.addOrRemove(tags, tag)
 
   this.setState({
-    selected
+    tags
     })
   }
+
+changeLocation = (name, details) => {
+
+    this.setState({
+      location: {name: name.description, lat: details.lat, lng: details.lng}
+    })
+
+}
+
+changeDates = (date) => {
+
+  this.setState({
+    dates: date
+  })
+
+}
 
   updateUserTags = async () => {
 
@@ -99,66 +122,190 @@ onPress = (tag) => {
     })
 
       try {
-        const data = {
-          tags: this.state.selected
-        }
-        const result = await API.USER().updateTags(userDetails.id, data)
-
+        const result = await API.USER().updateTags(userDetails.id, this.state.selected)
         if(result.code === 200){
           this.setState({
             isSaving: false,
             isTagsModalVisible: false
+          }, () => {
+            updateState(this.filtersRenderContent, 350)
           })
         } else {
-          // nothing yet
+          
         }
 
       } catch (error) {}
 
+}
+
+close = () => {
+
+  const {
+    isDateModalVisible,
+    isLocationModalVisible,
+    isTagsModalVisible
+  } = this.state
+
+  if(isDateModalVisible === true){
+    this.setState({
+      isDateModalVisible: false
+    })
   }
+  if(isLocationModalVisible === true){
+    this.setState({
+      isLocationModalVisible: false
+    })
+  }
+  if(isTagsModalVisible === true){
+    this.setState({
+      isTagsModalVisible: false
+    })
+  }
+}
 
-  getUserTags = async () => {
 
-    const userDetails = Profile.userDetails;
 
-    try{
+updateUserLocation = async () => {
 
-      const result = await API.USER().getTags(userDetails.id)
+  const userDetails = Profile.userDetails;
+
+  this.setState({
+    isSaving: true
+  })
+
+    try {
+      const result = await API.USER().updateLocation(userDetails.id, this.state.location)
       if(result.code === 200){
         this.setState({
-          selected: result.user.tags
+          isSaving: false,
+          isLocationModalVisible: false
+        },() => {
+          updateState(this.filtersRenderContent, 350)
         })
-      }else{
-        // nothing yet
+      } else {
+        
       }
+
     } catch (error) {}
+
+}
+
+Filters = async () => {
+    try{
+
+        let dates = await AsyncStorage.getItem(DATES_KEY);
+        dates = JSON.parse(dates)
+
+        let location = await AsyncStorage.getItem(LOCATION_KEY);
+        location = JSON.parse(location)
+
+        let tags = await AsyncStorage.getItem(TAGS_KEY);
+        tags = JSON.parse(tags)
+
+        this.setState({
+            dates: {startDate: dates.startDate, endDate: dates.endDate},
+            location: {name: location.name, lat: location.lat, lng: location.lng},
+            tags: tags.tags
+        })
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+save = async () => {
+
+  const { 
+      dates,
+      location,
+      tags,
+      isDateModalVisible,
+      isLocationModalVisible,
+      isTagsModalVisible
+  } = this.state
+
+  if(isDateModalVisible){
+
+    try{
+      const jsonValue ={
+          startDate: dates.startDate,
+          endDate: dates.endDate
+      }
+
+      await AsyncStorage.setItem(DATES_KEY, JSON.stringify(jsonValue))
+
+      updateState(this.filtersRenderContent, 350);
+
+      this.close()
+
+      } catch(error){
+          console.log(error)
+      }
+  }
+
+  if(isLocationModalVisible){
+
+    try{
+      const jsonValue = {
+          name: location.name,
+          lat: location.lat,
+          lng: location.lng
+      }
+
+      await AsyncStorage.setItem(LOCATION_KEY, JSON.stringify(jsonValue))
+
+      updateState(this.filtersRenderContent, 350);
+
+      this.close()
+
+      } catch(error){
+          console.log(error)
+      }
 
   }
 
+  if(isTagsModalVisible){
+
+    try{
+      const jsonValue = {
+        tags: tags
+      }
+
+      await AsyncStorage.setItem(TAGS_KEY, JSON.stringify(jsonValue))
+
+
+      updateState(this.filtersRenderContent, 350);
+
+      this.close()
+
+      } catch(error){
+          console.log(error)
+      }
+
+  }
+
+  
+}
 
 componentDidMount() {
   this.getEventsByFilter();
-  this.getUserTags();
+  this.Filters();
 }
-
-  
-
   render(){
 
     const { 
       data,
       isLoading,
       isSaving,
-      startDate,
-      endDate,
-      selected,
+      dates,
+      tags,
       isDateModalVisible,
       isLocationModalVisible,
       isTagsModalVisible
     } = this.state
 
-    const tags = ['Swift', 'Kotlin', 'Really long tag', 'Haskell', 'Java']
-
+    console.log(tags)
+    
       return (
         <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
 
@@ -192,145 +339,31 @@ componentDidMount() {
             )}
 
           </View>
+
           <Modal isVisible={isDateModalVisible}>
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalText}>{'Calendar'}</Text>
-              </View>
-              <View style={{paddingVertical: 15}}>
-              <Calendar
-                disabledBeforeToday={true}
-                startDate={startDate}
-                endDate={endDate}
-                onChange={({ startDate, endDate }) => this.setState({startDate,endDate})}
-                isMonthFirst={true}
-                style={{
-                  monthNameText: {fontFamily: 'GTEestiDisplay-Medium'},
-                  dayNameText: {fontFamily: 'GTEestiDisplay-Medium'},
-                  dayText: {fontFamily: 'GTEestiDisplay-Medium'},
-                  holidayColor: 'black',
-                  selectedDayBackgroundColor: '#0072ff'
-                }}
-              />
-            </View>
-            <View style={styles.modalFooter}>
-              <CustomButton
-                  title='Save'
-                  shouldHaveGradient={true}
-                  titleFontSize={24}
-                  onPress={() => this.setState({isDateModalVisible: false})}
-                  style={{shadowColor: "#0072ff",
-                          shadowOffset: {
-                              width: 0,
-                              height: 2,
-                            },
-                            shadowOpacity: 0.5,
-                            shadowRadius: 3.84,
-                            elevation: 5,
-                            position: 'absolute',
-                            bottom: 15,
-                            alignSelf: 'center'
-                            }}/>
-              </View>
-            </View>
+              <CalendarContainer 
+                startDate={dates.startDate}
+                endDate={dates.endDate}
+                save={this.save}
+                onChange={this.changeDates}
+                isSaving={isSaving}/>
           </Modal>
+
           <Modal isVisible={isLocationModalVisible}>
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
-            <View style={{paddingVertical: 15, height: 300}}>
-            <GooglePlacesAutocomplete
-                            placeholder='Search '
-                            returnKeyType={'search'}
-                            enablePoweredByContainer={false}
-                            query={{
-                            key: 'AIzaSyDB3m9IgLnTqEBC-GxuHeuAHjSkyyJZwKw',
-                            language: 'en',
-                            types: '(cities)'
-                            }}
-                            fetchDetails={true}
-                            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
-                            styles={{
-                                textInput: {
-                                    height: 47.5,
-                                    fontSize: 16,
-                                    borderWidth: 1.5,
-                                    paddingVertical: 0,
-                                    borderRadius: 32,
-                                    paddingHorizontal:20,
-                                    fontFamily: 'GTEestiDisplay-Medium',
-                                    borderColor: 'lightgray',
-                                    backgroundColor: 'white',
-                                },
-                                description: {fontFamily: 'GTEestiDisplay-Medium', fontSize: 15},
-                                listView: {
-                                    borderRadius: 8,
-                                    borderWidth: 1.5,
-                                    borderColor: 'lightgray',
-                                    height: 'auto'
-                                },
-                                row: {
-                                    backgroundColor: '#FFFFFF',
-                                    height: 44,
-                                    flexDirection: 'row',
-                                },
-                            }}
-                            onPress={(data, details = null) => {
-                                console.log(data, details.geometry.location)
-                                }}
-                            debounce={200}/>
-              </View>
-              <CustomButton
-                  title='Save'
-                  shouldHaveGradient={true}
-                  titleFontSize={24}
-                  onPress={() => this.setState({isLocationModalVisible: false})}
-                  style={{shadowColor: "#0072ff",
-                          shadowOffset: {
-                              width: 0,
-                              height: 2,
-                            },
-                            shadowOpacity: 0.5,
-                            shadowRadius: 3.84,
-                            elevation: 5,
-                            position: 'absolute',
-                            bottom: 15,
-                            alignSelf: 'center'
-                            }}/>
-            </View>
+              <LocationContainer
+                onChange={this.changeLocation}
+                save={this.save}
+                isSaving={isSaving}/>
           </Modal>
+
           <Modal isVisible={isTagsModalVisible}>
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
-              <View style={styles.modalHeader}>
-                  <Text style={styles.modalText}>{'Tags'}</Text>
-              </View>
-              <ScrollView style={{paddingVertical: 75}}>
-                <TagsView
-                all={tags}
-                selected={selected}
-                isExclusive={false}
-                onPress = {this.onPress}/>
-              </ScrollView>
-              <View style={styles.modalFooter}>
-                <CustomButton
-                  title='Save'
-                  shouldHaveGradient={true}
-                  titleFontSize={24}
-                  isLoading={isSaving}
-                  onPress={() => this.updateUserTags()}
-                  style={{shadowColor: "#0072ff",
-                          shadowOffset: {
-                              width: 0,
-                              height: 2,
-                            },
-                            shadowOpacity: 0.5,
-                            shadowRadius: 3.84,
-                            elevation: 5,
-                            position: 'absolute',
-                            bottom: 15,
-                            alignSelf: 'center'
-                            }}/>
-              </View>
-            </View>
+              <TagsContainer
+                tags={tags}
+                onPress={this.onPress}
+                save={this.save}
+                isSaving={isSaving}/>
           </Modal>
+
         </SafeAreaView>
       );
   }
@@ -343,6 +376,11 @@ onFiltersPressed = () => {
 
 
 filtersRenderContent = () => {
+
+  const {
+    location,
+    dates
+  } = this.state
 
   return(
     <View style={styles.modalContentContainer}>
@@ -367,7 +405,7 @@ filtersRenderContent = () => {
           <View style={[styles.modalRow, {paddingHorizontal: 32}]}>
               <Text style={[styles.text, {color: 'lightgray'}]}>{'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'}</Text>
           </View>
-          <View style={[styles.modalRow, {height: 100}]}>
+          <View style={[styles.modalRow, {height: 110}]}>
           <ScrollView 
               ref={(scrollView) => { this.scrollView = scrollView; }}
               style={styles.container}
@@ -384,33 +422,39 @@ filtersRenderContent = () => {
                 right: 50,
               }}>
               <TouchableOpacity onPress={() => this.setState({isDateModalVisible: true})} style={styles.view}>
-                <View style={{paddingHorizontal: 15}}>
+                <View style={[styles.row, {paddingTop: 10}]}>
                   <AntIcon
                     name="calendar"
                     size={22}
-                    style={{paddingTop: 10}}
                     />
-                    <Text style={styles.text}>{'1 Dec 2021 - 2 Dec 2021'}</Text>
+                  <Text style={styles.text}>{' Date(s)'}</Text>
+                </View>
+                <View style={styles.row}>
+                    <Text style={styles.text}>{ dates.endDate === null ? moment(dates.startDate).format('DD MMM YYYY') : moment(dates.startDate).format('DD MMM YYYY') + ' - ' + moment(dates.endDate).format('DD MMM YYYY') }</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.setState({isLocationModalVisible: true})} style={styles.view}>
-              <View style={{paddingHorizontal: 15}}>
+              <View style={[styles.row, {paddingTop: 10}]}>
                   <Icon
                     name="md-location-outline"
                     size={22}
-                    style={{paddingTop: 10}}
                     />
-                    <Text style={styles.text}>{'Glasgow, Uk'}</Text>
+                  <Text style={styles.text}>{' Location'}</Text>
+              </View>
+              <View style={styles.row}>
+                    <Text style={styles.text}>{location.name}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.setState({isTagsModalVisible: true})} style={styles.view}>
-              <View style={{paddingHorizontal: 15}}>
+              <View style={[styles.row, {paddingTop: 10}]}>
                   <Icon
                     name="md-pricetags-outline"
                     size={22}
-                    style={{paddingTop: 10}}
                     />
-                    <Text style={styles.text}>{'Drag, Show, 18+, Bingo ...'}</Text>
+                  <Text style={styles.text}>{' Tags'}</Text>
+              </View>
+              <View style={styles.row}>
+                    <Text style={styles.text} numberOfLines={1}>{'Drag, Show, Placeholder'}</Text>
                 </View>
               </TouchableOpacity>
             </ScrollView>

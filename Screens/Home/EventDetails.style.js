@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		alignSelf: 'center',
 		width: DIMENSION_WIDTH - 40,
-        height: DIMENSION_HEIGHT - 250,
+        height: DIMENSION_HEIGHT,
         backgroundColor: 'white',
-        borderRadius: 32,
+        borderRadius: 16,
         marginHorizontal: 20,
         paddingHorizontal: 20,
         paddingVertical: 20,
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         fontFamily: 'GTEestiDisplay-Medium',
         paddingHorizontal: 10,
         color: 'gray',
+        flexWrap: 'wrap'
     },
     tag: {
 		color: 'gray',
@@ -62,11 +63,33 @@ const styles = StyleSheet.create({
 		paddingRight: 7.5,
 		paddingBottom: 5,
 		paddingLeft: 7.5,
-		marginHorizontal: 5,
+        marginRight: 5,
 		marginVertical: 2.5
 
-	}
-
+	},
+    image: {
+        width: 60,
+        height: 60,
+        borderRadius:8
+    },
+    footer: {
+        position: 'absolute',
+        bottom: 20,
+        left: 0,
+        right: 0,
+    },
+    shareButton: {
+        backgroundColor: 'white', 
+        borderRadius: 32, 
+        padding: 10,
+        position: 'absolute',
+        left: 43.5,
+        bottom: 15,
+        shadowOpacity: 0.2,
+		shadowRadius: 5,
+		shadowColor: 'black',
+        shadowOffset: { height: 0, width: 0 }
+    }
 })
 
 export default styles

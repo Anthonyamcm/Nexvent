@@ -73,7 +73,7 @@ class Root extends React.Component{
     
     render() {
 
-        const Stack = createSharedElementStackNavigator();
+        const Stack = createStackNavigator();
 
         bottomSheet = React.createRef();
 
@@ -83,14 +83,7 @@ class Root extends React.Component{
                     <Stack.Navigator initialRouteName='AuthRoute' screenOptions={{headerShown: false}}>
                         <Stack.Screen name='AuthRoute' component={AuthRoute}/>
                         <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false}}/>
-
-                        <Stack.Screen 
-                                    name='EventDetails' 
-                                    component={EventDetailsContainer} 
-                                    options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}
-                                    sharedElements={(route, otherRoute, showing) => {
-                                        return [`item.photo`];
-                                      }}/>
+                        <Stack.Screen name='EventDetails' component={EventDetailsContainer} options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}/>
 
                     </Stack.Navigator>
                 </NavigationContainer>

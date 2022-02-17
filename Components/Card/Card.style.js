@@ -50,10 +50,8 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 	},
 	tagContainer: {
-		display: "flex",
 		flexDirection: 'row',
 		paddingBottom: 15,
-		flexWrap: 'wrap'
 	},
 	tag: {
 		color: 'white',

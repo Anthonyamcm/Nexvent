@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Card.style';
-import { Text, View, ImageBackground, Dimensions } from 'react-native';
+import { Text, View, ImageBackground, Dimensions, ScrollView } from 'react-native';
 import { SharedElement } from 'react-navigation-shared-element';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
@@ -37,7 +37,7 @@ const CardItem = ({
           </View>
 
           <View style={styles.tagContainer}>
-            {tags.map((tag, index) => 
+            {tags.slice(0, 4).map((tag, index) => 
             <Text key={index} style={styles.tag}>{tag.label}</Text>
             )}
           </View>

@@ -75,10 +75,6 @@ const REGISTER = () => ({
 const USER = () => ({
 	getEvents: () => 
 		instance.get('/events', {headers}),
-	getTags: (id) => 
-		instance.get(`/users/${id}/tags`, {headers}),
-	updateTags: (id , objectData) => 
-		instance.put(`/users/${id}/updateTags`, objectData, {headers}),
 })
 
 const getToken = () => {
