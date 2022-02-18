@@ -50,7 +50,7 @@ class EventDetailsContainer extends Component {
 
                         <View style={styles.row}>
                             <Icon name="md-location-outline" size={22} color={'gray'}/>
-                            <Text style={styles.rowText}>{data.location.name}</Text>
+                            <Text style={styles.rowText}>{data.address}</Text>
                         </View>
 
                         <View style={styles.row}>
@@ -72,7 +72,7 @@ class EventDetailsContainer extends Component {
                                 showsHorizontalScrollIndicator={false}
                                 >
                             {data.tags.map((tag, index) => 
-                                <Text key={index} style={styles.tag}>{tag.label}</Text>
+                                <Text key={index} style={styles.tag}>{tag}</Text>
                             )}
                             </ScrollView>
                         </View>

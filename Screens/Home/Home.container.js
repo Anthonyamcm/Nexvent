@@ -47,7 +47,8 @@ class HomeContainer extends React.Component {
     const {
         data,
         tags,
-        dates
+        dates,
+        location
     } = this.state;
 
     this.setState({
@@ -56,25 +57,19 @@ class HomeContainer extends React.Component {
 
     let bodydata = {
       tags: tags,
-      dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()}
+      dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()},
+      coordinates: [location.lng, location.lat],
+      distance: 10
     }
 
     console.log(bodydata)
 
     try {
-        const result = await API.USER().getEvents(bodydata);
+        const result = await API.USER().getEvents(bodydata)
         console.log(result)
         if (result.code === 200) {
-            let newData = data;
-            if (data.length === 0) {
-                newData = result.event;
-            } else {
-                result.result.forEach((item) => {
-                    newData.push(item);
-                });
-            }
             this.setState({
-                data: newData,
+                data: result.event,
                 isLoading: false
             });
         }
@@ -123,55 +118,9 @@ changeDates = (date) => {
 
 }
 
-close = () => {
 
-  const {
-    isDateModalVisible,
-    isLocationModalVisible,
-    isTagsModalVisible
-  } = this.state
+////////////// Modal Logic ////////////////////////////////
 
-  if(isDateModalVisible === true){
-    this.setState({
-      isDateModalVisible: false
-    })
-  }
-  if(isLocationModalVisible === true){
-    this.setState({
-      isLocationModalVisible: false
-    })
-  }
-  if(isTagsModalVisible === true){
-    this.setState({
-      isTagsModalVisible: false
-    })
-  }
-}
-
-Filters = async () => {
-    try{
-
-        let dates = await AsyncStorage.getItem(DATES_KEY);
-        dates = JSON.parse(dates)
-
-        let location = await AsyncStorage.getItem(LOCATION_KEY);
-        location = JSON.parse(location)
-
-        let tags = await AsyncStorage.getItem(TAGS_KEY);
-        tags = JSON.parse(tags)
-
-        this.setState({
-            dates: {startDate: dates.startDate, endDate: dates.endDate},
-            location: {name: location.name, lat: location.lat, lng: location.lng},
-            tags: tags.tags
-        })
-
-        this.getEventsByFilter()
-    }
-    catch(error){
-        console.log(error)
-    }
-}
 
 save = async () => {
 
@@ -244,8 +193,77 @@ save = async () => {
 
   }
 
-  
 }
+
+close = () => {
+
+  const {
+    isDateModalVisible,
+    isLocationModalVisible,
+    isTagsModalVisible
+  } = this.state
+
+  if(isDateModalVisible === true){
+    this.setState({
+      isDateModalVisible: false
+    })
+  }
+  if(isLocationModalVisible === true){
+    this.setState({
+      isLocationModalVisible: false
+    })
+  }
+  if(isTagsModalVisible === true){
+    this.setState({
+      isTagsModalVisible: false
+    })
+  }
+}
+
+
+Filters = async () => {
+  try{
+
+      let dates = await AsyncStorage.getItem(DATES_KEY);
+      dates = JSON.parse(dates)
+
+      let location = await AsyncStorage.getItem(LOCATION_KEY);
+      location = JSON.parse(location)
+
+      let tags = await AsyncStorage.getItem(TAGS_KEY);
+      tags = JSON.parse(tags)
+
+      this.setState({
+          dates: {startDate: dates.startDate, endDate: dates.endDate},
+          location: {name: location.name, lat: location.lat, lng: location.lng},
+          tags: tags.tags
+      })
+
+      this.getEventsByFilter()
+  }
+  catch(error){
+      console.log(error)
+  }
+}
+
+
+/////////// Modal Logic ////////////////////////////
+
+
+
+
+
+
+/////////// Sheet Logic //////////////////////////
+
+
+closeSheet = () => {
+  this.getEventsByFilter();
+  closeBottomSheet();
+}
+
+
+/////////// Sheet Logic //////////////////////////
 
 componentDidMount() {
   this.Filters();
@@ -286,7 +304,7 @@ componentDidMount() {
                   <TouchableOpacity activeOpacity={1} onPress={() => this.props.navigation.navigate('EventDetails', {data: data})}>
                     <CardItem image={require('../../Images/image01.jpg')} 
                               name={data.title} 
-                              location={data.location.name} 
+                              location={data.address} 
                               tags={data.tags}/>
                   </TouchableOpacity>
                 </Card>
@@ -348,7 +366,7 @@ filtersRenderContent = () => {
                 iconSize={32}
                 shouldHaveGradient={true}
                 titleFontSize={24}
-                onPress={() => closeBottomSheet()}
+                onPress={() => this.closeSheet()}
                 style={{width: 50,
                         shadowColor: "#0072ff",
                         shadowOffset:{
