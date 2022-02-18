@@ -5,7 +5,6 @@ import Card from '../../Components/Card/Card';
 import CardItem from '../../Components/Card/CardItem';
 import CustomButton from '../../Components/Button/Button';
 import styles from './Home.style';
-import * as Profile from '../../Components/Profile/Profile'
 import * as API from '../../Api/Api';
 import Icon from 'react-native-vector-icons/Ionicons'
 import AntIcon from 'react-native-vector-icons/AntDesign'
@@ -16,6 +15,7 @@ import CalendarContainer from '../../Components/Modal/Calendar.container';
 import LocationContainer from '../../Components/Modal/Location.container';
 import TagsContainer from '../../Components/Modal/Tags.container';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MultiSlider from '../../Components/Slider/MultiSlider';
 
 const { width } = Dimensions.get('window');
 
@@ -37,7 +37,8 @@ class HomeContainer extends React.Component {
         isSaving: false,
         isDateModalVisible: false,
         isLocationModalVisible: false,
-        isTagsModalVisible: false
+        isTagsModalVisible: false,
+        sliderOneValue: [1]
     }
   }
 
@@ -45,10 +46,10 @@ class HomeContainer extends React.Component {
   getEventsByFilter = async () => {
 
     const {
-        data,
         tags,
         dates,
-        location
+        location,
+        sliderOneValue
     } = this.state;
 
     this.setState({
@@ -59,7 +60,7 @@ class HomeContainer extends React.Component {
       tags: tags,
       dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()},
       coordinates: [location.lng, location.lat],
-      distance: 10
+      distance: sliderOneValue[0]
     }
 
     console.log(bodydata)
@@ -354,7 +355,8 @@ filtersRenderContent = () => {
 
   const {
     location,
-    dates
+    dates,
+    sliderOneValue,
   } = this.state
 
   return(
@@ -377,8 +379,23 @@ filtersRenderContent = () => {
                         shadowRadius: 3.84,
                         elevation: 5}}/>
           </View>
+          <View style={[styles.modalRow,{paddingHorizontal: 32}]}>
+            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0}}>{'Maximum Distance'}</Text>
+            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0}}>{sliderOneValue + ' mi'}</Text>
+          </View>
           <View style={[styles.modalRow, {paddingHorizontal: 32}]}>
-              <Text style={[styles.text, {color: 'lightgray'}]}>{'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s'}</Text>
+            <MultiSlider
+              values={sliderOneValue}
+              sliderLength={320}
+              onValuesChangeStart={() => this.setState({sliderOneChanging: true })}
+              onValuesChange={(value) => this.setState({sliderOneValue: value}, () => updateState(this.filtersRenderContent, 350))}
+              onValuesChangeFinish={() => this.setState({sliderOneChanging: false})}
+              min={1}
+              max={50}
+              trackStyle={{
+                height: 5,
+              }}
+            />
           </View>
           <View style={[styles.modalRow, {height: 110}]}>
           <ScrollView 
