@@ -73,8 +73,8 @@ const REGISTER = () => ({
 });
 
 const USER = () => ({
-	getEvents: () => 
-		instance.get('/events', {headers}),
+	getEvents: (objectData) => 
+		instance.post('/events/result', objectData, {headers})
 })
 
 const getToken = () => {

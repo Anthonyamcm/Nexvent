@@ -38,7 +38,7 @@ const CardItem = ({
 
           <View style={styles.tagContainer}>
             {tags.slice(0, 4).map((tag, index) => 
-            <Text key={index} style={styles.tag}>{tag.label}</Text>
+            <Text key={index} style={styles.tag}>{tag}</Text>
             )}
           </View>
 

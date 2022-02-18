@@ -8,7 +8,7 @@ class TagsContainer extends React.Component{
    
     render(){
 
-        const options = ['Festival', 'Performance', 'Drag', 'Show', 'Fair']
+        const options = ["Festival", "Performance", "Drag", "Show", "Fair"]
 
         return(
             <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>

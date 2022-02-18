@@ -45,15 +45,25 @@ class HomeContainer extends React.Component {
   getEventsByFilter = async () => {
 
     const {
-        data
+        data,
+        tags,
+        dates
     } = this.state;
 
     this.setState({
       isLoading: true
     })
 
+    let bodydata = {
+      tags: tags,
+      dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()}
+    }
+
+    console.log(bodydata)
+
     try {
-        const result = await API.USER().getEvents();
+        const result = await API.USER().getEvents(bodydata);
+        console.log(result)
         if (result.code === 200) {
             let newData = data;
             if (data.length === 0) {
@@ -113,31 +123,6 @@ changeDates = (date) => {
 
 }
 
-  updateUserTags = async () => {
-
-    const userDetails = Profile.userDetails;
-
-    this.setState({
-      isSaving: true
-    })
-
-      try {
-        const result = await API.USER().updateTags(userDetails.id, this.state.selected)
-        if(result.code === 200){
-          this.setState({
-            isSaving: false,
-            isTagsModalVisible: false
-          }, () => {
-            updateState(this.filtersRenderContent, 350)
-          })
-        } else {
-          
-        }
-
-      } catch (error) {}
-
-}
-
 close = () => {
 
   const {
@@ -163,33 +148,6 @@ close = () => {
   }
 }
 
-
-
-updateUserLocation = async () => {
-
-  const userDetails = Profile.userDetails;
-
-  this.setState({
-    isSaving: true
-  })
-
-    try {
-      const result = await API.USER().updateLocation(userDetails.id, this.state.location)
-      if(result.code === 200){
-        this.setState({
-          isSaving: false,
-          isLocationModalVisible: false
-        },() => {
-          updateState(this.filtersRenderContent, 350)
-        })
-      } else {
-        
-      }
-
-    } catch (error) {}
-
-}
-
 Filters = async () => {
     try{
 
@@ -207,6 +165,8 @@ Filters = async () => {
             location: {name: location.name, lat: location.lat, lng: location.lng},
             tags: tags.tags
         })
+
+        this.getEventsByFilter()
     }
     catch(error){
         console.log(error)
@@ -288,7 +248,6 @@ save = async () => {
 }
 
 componentDidMount() {
-  this.getEventsByFilter();
   this.Filters();
 }
   render(){
@@ -304,8 +263,6 @@ componentDidMount() {
       isTagsModalVisible
     } = this.state
 
-    console.log(tags)
-    
       return (
         <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
 
