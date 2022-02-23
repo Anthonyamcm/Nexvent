@@ -38,7 +38,7 @@ class HomeContainer extends React.Component {
         isDateModalVisible: false,
         isLocationModalVisible: false,
         isTagsModalVisible: false,
-        sliderOneValue: [1]
+        distance: 1
     }
   }
 
@@ -49,7 +49,7 @@ class HomeContainer extends React.Component {
         tags,
         dates,
         location,
-        sliderOneValue
+        distance
     } = this.state;
 
     this.setState({
@@ -60,7 +60,7 @@ class HomeContainer extends React.Component {
       tags: tags,
       dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()},
       coordinates: [location.lng, location.lat],
-      distance: sliderOneValue[0]
+      distance: distance
     }
 
     console.log(bodydata)
@@ -353,10 +353,21 @@ onFiltersPressed = () => {
 
 filtersRenderContent = () => {
 
+  const [sliderOneChanging, setSliderOneChanging] = React.useState(false);
+
+  const [sliderOneValue, setSliderOneValue] = React.useState([5]);
+
+  const sliderOneValuesChangeStart = () => setSliderOneChanging(true);
+
+  const sliderOneValuesChange = values => setSliderOneValue(values);
+
+  const sliderOneValuesChangeFinish = () => setSliderOneChanging(false);
+
+
   const {
     location,
     dates,
-    sliderOneValue,
+    tags
   } = this.state
 
   return(
@@ -386,15 +397,16 @@ filtersRenderContent = () => {
           <View style={[styles.modalRow, {paddingHorizontal: 32}]}>
             <MultiSlider
               values={sliderOneValue}
-              sliderLength={320}
-              onValuesChangeStart={() => this.setState({sliderOneChanging: true })}
-              onValuesChange={(value) => this.setState({sliderOneValue: value}, () => updateState(this.filtersRenderContent, 350))}
-              onValuesChangeFinish={() => this.setState({sliderOneChanging: false})}
+              sliderLength={330}
+              onValuesChangeStart={sliderOneValuesChangeStart}
+              onValuesChange={sliderOneValuesChange}
+              onValuesChangeFinish={sliderOneValuesChangeFinish, this.setState({distance: sliderOneValue[0]})}
               min={1}
               max={50}
               trackStyle={{
                 height: 5,
               }}
+              smoothSnapping={true}
             />
           </View>
           <View style={[styles.modalRow, {height: 110}]}>
@@ -446,7 +458,7 @@ filtersRenderContent = () => {
                   <Text style={styles.text}>{' Tags'}</Text>
               </View>
               <View style={styles.row}>
-                    <Text style={styles.text} numberOfLines={1}>{'Drag, Show, Placeholder'}</Text>
+                    <Text style={styles.text} numberOfLines={1}>{tags.map(tag => tag).join(", ")}</Text>
                 </View>
               </TouchableOpacity>
             </ScrollView>

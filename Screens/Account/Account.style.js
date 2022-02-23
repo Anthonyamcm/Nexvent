@@ -1,16 +1,20 @@
 import { StyleSheet , Dimensions} from "react-native";
+import * as appColors from '../../Components/colors/appColor'
 
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
     containerHome: { 
+        flexDirection: 'column',
+        justifyContent: "space-between",
+        alignItems: 'flex-start',
         paddingHorizontal: 20,
-        paddingVertical: 10
+        paddingVertical: 10,
     },
-    top: {
-		flexDirection: "row",
+    column: {
+		flexDirection: "column",
 		justifyContent: "space-between",
-		alignItems: "center",
+		alignItems: "flex-start",
 	},
     tagContainer: {
         backgroundColor: 'white',
@@ -21,6 +25,22 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: 'GTEestiDisplay-Medium',
         fontSize: 26
+    },
+    button: {
+        justifyContent: 'flex-start',
+		alignItems: 'center',
+		flexDirection: 'row',
+        borderBottomWidth: 0.5,
+        borderColor: 'lightgray',
+        paddingVertical: 15,
+    },
+    buttonText: {
+        flex: 1, 
+        fontFamily: 'GTEestiDisplay-Medium', 
+        paddingHorizontal: 25, 
+        fontSize: 18, 
+        justifyContent:  'center', 
+        color: appColors.grey4 
     }
 })
 
