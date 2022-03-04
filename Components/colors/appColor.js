@@ -13,6 +13,9 @@ const grey5 = '#969F9F';
 const grey6 = '#66686D';
 const grey7 = '#232c2e';
 
+const lightBlue = '#00c6ff';
+const darkBlue = '#0072ff';
+
 export{
     lightGrey,
 
@@ -28,5 +31,8 @@ export{
     grey5,
     grey6,
     grey7,
+
+    lightBlue,
+    darkBlue,
 
 }

@@ -21,18 +21,21 @@ const CardItem = ({
             source={image} 
             style={{ flex: 1,
             width: null,
-            height: DIMENSION_HEIGHT - 220,
+            height: DIMENSION_HEIGHT - 240,
             }}
             imageStyle={{ borderRadius: 32}}  
         />
       </SharedElement>
+
+      <View style={{flex:1}}>
+
+      </View>
           
         <View style={styles.footer}>
            
           <Text style={styles.title}>{name}</Text>
            
           <View style={styles.locationContainer}>
-            <Icon name="md-location-outline" size={32} color={'white'}/>
             <Text style={styles.Location}>{location}</Text>
           </View>
 

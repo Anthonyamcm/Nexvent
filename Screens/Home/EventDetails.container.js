@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { View, ImageBackground, Dimensions, Text, TouchableOpacity, ScrollView, Image} from "react-native";
+import { View, ImageBackground, Dimensions, Text, TouchableOpacity, ScrollView, Image, Share} from "react-native";
 import { SharedElement } from 'react-navigation-shared-element';
 import Moment from 'moment';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './EventDetails.style'
 import CustomButton from "../../Components/Button/Button";
+import LinearGradient from "react-native-linear-gradient";
+import * as appColors from '../../Components/colors/appColor'
 
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
-const DIMENSION_WIDTH = Dimensions.get("window").width;
+
 
 class EventDetailsContainer extends Component {
     
@@ -15,8 +17,6 @@ class EventDetailsContainer extends Component {
     render(){
 
         const data = this.props.route.params.data;
-
-        console.log(data)
 
         return(
             <View style={styles.container}>
@@ -49,21 +49,21 @@ class EventDetailsContainer extends Component {
                         <Text style={styles.title}>{data.title}</Text>
 
                         <View style={styles.row}>
-                            <Icon name="md-location-outline" size={22} color={'gray'}/>
+                            <Icon name="md-location-outline" size={22} color={appColors.grey4}/>
                             <Text style={styles.rowText}>{data.address}</Text>
                         </View>
 
                         <View style={styles.row}>
-                            <Icon name="md-calendar-sharp" size={22} color={'gray'}/>
+                            <Icon name="md-calendar-sharp" size={22} color={appColors.grey4}/>
                             <Text style={styles.rowText}>{Moment(data.date).format('DD MMMM YYYY')}</Text>
                         </View> 
 
                         <View style={styles.row}>
-                            <Icon name="md-time-outline" size={22} color={'gray'}/>
+                            <Icon name="md-time-outline" size={22} color={appColors.grey4}/>
                             <Text style={styles.rowText}>{`${data.times[0]} - ${data.times[1]}`}</Text>
                         </View> 
 
-                        <View style={[styles.row, {flexWrap: 'nowrap'}]}>
+                        <View style={[styles.row, {flexWrap: 'nowrap', paddingTop: 15}]}>
                             <ScrollView 
                                 ref={(scrollView) => { this.scrollView = scrollView; }}
                                 //pagingEnabled={true}
@@ -72,13 +72,17 @@ class EventDetailsContainer extends Component {
                                 showsHorizontalScrollIndicator={false}
                                 >
                             {data.tags.map((tag, index) => 
-                                <Text key={index} style={styles.tag}>{tag}</Text>
+                            <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={['#00c6ff','#0072ff']} style={styles.gradient}>
+                                <View style={styles.tag}>
+                                    <Text style={styles.text}>{tag}</Text>
+                                </View>
+                            </LinearGradient>
                             )}
                             </ScrollView>
                         </View>
 
-                        <View style={[styles.row, {paddingTop: 25}]}>
-                            <Text style={[styles.rowText, {fontSize: 20, color: 'black',  paddingHorizontal: 0}]}>{'Description'}</Text>
+                        <View style={[styles.row, {paddingTop: 15}]}>
+                            <Text style={styles.headers}>{'Description'}</Text>
                         </View>  
 
                         <View style={styles.row}>
@@ -86,7 +90,7 @@ class EventDetailsContainer extends Component {
                         </View>
 
                         <View style={[styles.row, {paddingTop: 25}]}>
-                            <Text style={[styles.rowText, {fontSize: 20, color: 'black',  paddingHorizontal: 0}]}>{'Host'}</Text>
+                            <Text style={styles.headers}>{'Host'}</Text>
                         </View>
 
                         <View style={[styles.row, {flex: 1}]}>

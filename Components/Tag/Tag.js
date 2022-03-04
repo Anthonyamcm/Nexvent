@@ -34,8 +34,7 @@ class Tag extends React.Component {
             height: 46,
             alignItems: 'center',
             justifyContent: 'center',
-            paddingLeft: 16,
-            paddingRight: 16
+            paddingHorizontal: 16
           },
           touchable: {
             marginLeft: 4,

@@ -30,9 +30,10 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
 		alignItems: 'center',
 		flexDirection: 'row',
-        borderBottomWidth: 0.5,
-        borderColor: 'lightgray',
+        backgroundColor: appColors.grey2,
+        borderRadius: 8,
         paddingVertical: 15,
+        marginVertical: 15
     },
     buttonText: {
         flex: 1, 
@@ -41,6 +42,10 @@ const styles = StyleSheet.create({
         fontSize: 18, 
         justifyContent:  'center', 
         color: appColors.grey4 
+    },
+    buttonIcon: {
+        color: appColors.grey4,
+        paddingLeft: 10
     }
 })
 

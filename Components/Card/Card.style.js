@@ -8,25 +8,26 @@ const styles = StyleSheet.create({
     card: {
 		borderRadius: 32,
       	width: DIMENSION_WIDTH - 40,
-      	height: DIMENSION_HEIGHT - 220,
-      	paddingTop: 10,
+      	height: DIMENSION_HEIGHT - 200,
+      	paddingVertical: 20,
       	margin: 10,
       	shadowOpacity: 0.3,
 		shadowRadius: 10,
 		shadowColor: 'black',
 		display: 'flex',
+		flexDirection: 'column',
+		alignContent: 'flex-end',
 		shadowOffset: { height: 0, width: 0 }
 	},
 	footer: {
 		display: 'flex',
 		flexDirection: 'column',
 		alignSelf: 'flex-end',
-		flex: 1,
 		justifyContent: 'flex-end',
 		width: '100%',
 		paddingHorizontal: 20,
-    	backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    	borderRadius: 32,
+    	borderBottomLeftRadius: 32,
+		borderBottomRightRadius: 32,
 		fontWeight: 700,
 	},
 	title: {
@@ -60,12 +61,10 @@ const styles = StyleSheet.create({
 		borderRadius: 18,
 		borderWidth: 2,
 		borderColor: 'white',
-		paddingTop: 7.5,
-		paddingRight: 10,
-		paddingBottom: 7.5,
-		paddingLeft: 7.5,
-		marginHorizontal: 5,
-		marginVertical: 2.5
+		paddingHorizontal: 10,
+		paddingVertical: 7.5,
+		marginVertical: 2.5,
+		marginRight: 10
 
 	}
 })

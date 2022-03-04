@@ -7,7 +7,6 @@ import CustomButton from '../../Components/Button/Button';
 import styles from './Home.style';
 import * as API from '../../Api/Api';
 import Icon from 'react-native-vector-icons/Ionicons'
-import AntIcon from 'react-native-vector-icons/AntDesign'
 import Modal from "react-native-modal";
 import { openBottomSheet, closeBottomSheet, updateState } from '../../Navigation/Root';
 import moment from 'moment';
@@ -16,6 +15,9 @@ import LocationContainer from '../../Components/Modal/Location.container';
 import TagsContainer from '../../Components/Modal/Tags.container';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MultiSlider from '../../Components/Slider/MultiSlider';
+import MaskedView from '@react-native-masked-view/masked-view';
+import LinearGradient from 'react-native-linear-gradient';
+import * as appColors from '../../Components/colors/appColor'
 
 const { width } = Dimensions.get('window');
 
@@ -56,9 +58,11 @@ class HomeContainer extends React.Component {
       isLoading: true
     })
 
+    console.log(dates.endDate)
+
     let bodydata = {
       tags: tags,
-      dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: moment.utc(moment(dates.endDate)).format()},
+      dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: dates.endDate != null ?  moment.utc(moment(dates.endDate)).format() : null},
       coordinates: [location.lng, location.lat],
       distance: distance
     }
@@ -105,8 +109,9 @@ onPress = (tag) => {
 
 changeLocation = (name, details) => {
 
+  console.log(name)
     this.setState({
-      location: {name: name.description, lat: details.lat, lng: details.lng}
+      location: {name: name.structured_formatting.main_text, country: name.structured_formatting.secondary_text , lat: details.lat, lng: details.lng}
     })
 
 }
@@ -158,6 +163,7 @@ save = async () => {
     try{
       const jsonValue = {
           name: location.name,
+          country: location.country,
           lat: location.lat,
           lng: location.lng
       }
@@ -236,7 +242,7 @@ Filters = async () => {
 
       this.setState({
           dates: {startDate: dates.startDate, endDate: dates.endDate},
-          location: {name: location.name, lat: location.lat, lng: location.lng},
+          location: {name: location.name, country: location.country, lat: location.lat, lng: location.lng},
           tags: tags.tags
       })
 
@@ -283,7 +289,7 @@ componentDidMount() {
     } = this.state
 
       return (
-        <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
+        <SafeAreaView style={{flex:1, backgroundColor: appColors.grey1}}>
 
           <View style={styles.containerHome}>
 
@@ -391,8 +397,8 @@ filtersRenderContent = () => {
                         elevation: 5}}/>
           </View>
           <View style={[styles.modalRow,{paddingHorizontal: 32}]}>
-            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0}}>{'Maximum Distance'}</Text>
-            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0}}>{sliderOneValue + ' mi'}</Text>
+            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0, color: appColors.grey4}}>{'Maximum Distance'}</Text>
+            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 16, paddingVertical: 0, color: appColors.grey4}}>{sliderOneValue + ' mi'}</Text>
           </View>
           <View style={[styles.modalRow, {paddingHorizontal: 32}]}>
             <MultiSlider
@@ -405,6 +411,7 @@ filtersRenderContent = () => {
               max={50}
               trackStyle={{
                 height: 5,
+                backgroundColor: appColors.grey3
               }}
               smoothSnapping={true}
             />
@@ -426,39 +433,61 @@ filtersRenderContent = () => {
                 right: 50,
               }}>
               <TouchableOpacity onPress={() => this.setState({isDateModalVisible: true})} style={styles.view}>
-                <View style={[styles.row, {paddingTop: 10}]}>
-                  <AntIcon
-                    name="calendar"
-                    size={22}
-                    />
-                  <Text style={styles.text}>{' Date(s)'}</Text>
-                </View>
                 <View style={styles.row}>
-                    <Text style={styles.text}>{ dates.endDate === null ? moment(dates.startDate).format('DD MMM YYYY') : moment(dates.startDate).format('DD MMM YYYY') + ' - ' + moment(dates.endDate).format('DD MMM YYYY') }</Text>
+                  <View style={{flexDirection: 'column', flex: 1}}>
+                  <MaskedView
+                      style={{ height: 17 }}
+                      maskElement={<Text style={[styles.text, {fontSize: 17}]}>{moment(dates.startDate).format('MMM DD')}</Text>}
+                      >
+                    <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={[appColors.lightBlue, appColors.darkBlue]} style={{ flex: 1 }}/>
+                  </MaskedView>
+                    <Text style={[styles.text, {color: appColors.grey4}]}>{moment(dates.startDate).format('YYYY')}</Text>
+                  </View>
+                  <View style={{flexDirection: 'column', flex: 1}}>
+                    <Icon 
+                      name={'caret-forward'}
+                      size={22}
+                      style={{alignSelf: 'center', color: appColors.grey3}}/>
+                  </View>
+                  <View style={{flexDirection: 'column', flex: 1}}>
+                  {dates.endDate != null && (
+                  <View>
+                    <MaskedView
+                      style={{ height: 17 }}
+                      maskElement={<Text style={[styles.text, {fontSize: 17}]}>{moment(dates.endDate).format('MMM DD')}</Text>}
+                      >
+                    <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={[appColors.lightBlue, appColors.darkBlue]} style={{ flex: 1 }}/>
+                  </MaskedView>
+                    <Text style={[styles.text, {color: appColors.grey4}]}>{moment(dates.endDate).format('YYYY')}</Text>
+                  </View>
+                  )}
+                  </View>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.setState({isLocationModalVisible: true})} style={styles.view}>
-              <View style={[styles.row, {paddingTop: 10}]}>
-                  <Icon
-                    name="md-location-outline"
-                    size={22}
-                    />
-                  <Text style={styles.text}>{' Location'}</Text>
-              </View>
               <View style={styles.row}>
-                    <Text style={styles.text}>{location.name}</Text>
+                <View style={{flexDirection: 'column', flex: 1}}>
+                  <MaskedView
+                      style={{ height: 20 }}
+                      maskElement={<Text style={[styles.text, {fontSize: 17}]}>{location.name}</Text>}
+                      >
+                    <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={[appColors.lightBlue, appColors.darkBlue]} style={{ flex: 1 }}/>
+                  </MaskedView>
+                    <Text style={[styles.text, {color: appColors.grey4}]}>{location.country}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => this.setState({isTagsModalVisible: true})} style={styles.view}>
-              <View style={[styles.row, {paddingTop: 10}]}>
-                  <Icon
-                    name="md-pricetags-outline"
-                    size={22}
-                    />
-                  <Text style={styles.text}>{' Tags'}</Text>
-              </View>
-              <View style={styles.row}>
-                    <Text style={styles.text} numberOfLines={1}>{tags.map(tag => tag).join(", ")}</Text>
+                <View style={styles.row}>
+                  <View style={{flexDirection: 'column', flex: 1}}>
+                    <MaskedView
+                        style={{ height: 20 }}
+                        maskElement={<Text style={[styles.text, {fontSize: 17}]}>{'Tags'}</Text>}
+                        >
+                      <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={[appColors.lightBlue, appColors.darkBlue]} style={{ flex: 1 }}/>
+                    </MaskedView>
+                      <Text style={[styles.text, {color: appColors.grey4}]} numberOfLines={1}>{tags.map(tag => tag).join(", ")}</Text>
+                  </View>
                 </View>
               </TouchableOpacity>
             </ScrollView>

@@ -4,6 +4,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeContainer from '../Screens/Home/Home.container';
 import AccountContainer from '../Screens/Account/Account.container';
 import LikesContainer from '../Screens/Likes/Likes.container'
+import * as appColors from '../Components/colors/appColor'
+import { floor } from 'react-native-reanimated';
 
 const MainRoute = () => {
 
@@ -13,12 +15,16 @@ const MainRoute = () => {
       <Tabs.Navigator
       initialRouteName='Home'
       tabBarOptions={{
-        activeBackgroundColor: "#0072ff",
-        activeTintColor: "white",
-        inactiveTintColor: "#222222"
+        activeBackgroundColor: appColors.grey2,
+        activeTintColor: appColors.grey4,
+        inactiveTintColor: "#222222",
+        
       }}
       appearance={{
-        shadow: true
+        shadow: false,
+        floating: true,
+        dotSize: 'small',
+        tabBarBackground: appColors.grey1
       }}
     >
         <Tabs.Screen

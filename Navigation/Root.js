@@ -11,6 +11,8 @@ import MainRoute from "./MainRoute";
 import BottomSheet from 'reanimated-bottom-sheet';
 import EventDetailsContainer from "../Screens/Home/EventDetails.container";
 
+import * as appColors from '../Components/colors/appColor'
+
 
 
 const fall = new Animated.Value(1);
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
     },
 
     bottomSheetContainer: {
-        backgroundColor: 'white',
+        backgroundColor: appColors.grey1,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 8,

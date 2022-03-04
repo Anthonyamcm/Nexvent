@@ -1,4 +1,5 @@
 import { StyleSheet , Dimensions} from "react-native";
+import * as appColors from '../../Components/colors/appColor'
 
 
 const { width } = Dimensions.get('window');
@@ -8,6 +9,7 @@ const styles = StyleSheet.create({
 		flex:1,
 		flexDirection: 'column',
         marginHorizontal: 10,
+
     },
     top: {
 		flexDirection: "row",
@@ -21,6 +23,7 @@ const styles = StyleSheet.create({
     modalContentContainer: {
         width: '100%',
         height: '100%',
+        backgroundColor: appColors.grey1
     },
     modalRow: {
         flexDirection: 'row',
@@ -33,16 +36,17 @@ const styles = StyleSheet.create({
     container: {paddingHorizontal: 32},
     view: {
         marginTop: 5,
-        backgroundColor: 'white',
+        backgroundColor: appColors.grey1,
         width: width - 195,
         marginVertical: 10,
         marginRight: 20,
         height: 90,
         borderRadius: 16,
         display: 'flex',
-		flexDirection: 'column',
+		flexDirection: 'row',
         alignSelf: 'center',
-        shadowColor: "#000",
+        alignContent: 'center',
+        shadowColor: appColors.grey7,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -52,10 +56,11 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     row: {
-        justifyContent: 'flex-start',
 		alignItems: 'center',
+        justifyContent: 'center',
 		flexDirection: 'row',
-        paddingHorizontal: 15
+        paddingHorizontal: 15,
+        flex: 1
     },
     modalHeader : {
         backgroundColor: 'white',
@@ -112,8 +117,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: 'GTEestiDisplay-Medium',
-        fontSize: 14,
-        paddingVertical: 10,
+        fontSize: 16,
     }
 });
 

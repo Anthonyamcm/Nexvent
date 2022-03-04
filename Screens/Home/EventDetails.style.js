@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { color } from "react-native-reanimated";
+import * as appColors from '../../Components/colors/appColor'
 
 const DIMENSION_WIDTH = Dimensions.get("window").width;
 const DIMENSION_HEIGHT = Dimensions.get("window").height;
@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
         paddingHorizontal: 30,
         paddingVertical: 50
 	},
+    headers:{
+        fontSize: 20,
+        color: 'black',
+        fontFamily: 'GTEestiDisplay-Medium',
+    },
     info:{
         display: 'flex',
 		flexDirection: 'column',
@@ -46,27 +51,40 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     rowText: {
-        fontSize: 14,
+        fontSize: 15,
         fontFamily: 'GTEestiDisplay-Medium',
         paddingHorizontal: 10,
-        color: 'gray',
+        color: appColors.grey4,
         flexWrap: 'wrap'
     },
     tag: {
-		color: 'gray',
 		fontFamily: 'GTEestiDisplay-Medium',
-		borderColor: 'gray',
-		borderRadius: 16,
-		borderWidth: 2,
-		borderColor: 'gray',
-		paddingTop: 5,
-		paddingRight: 7.5,
-		paddingBottom: 5,
-		paddingLeft: 7.5,
-        marginRight: 5,
-		marginVertical: 2.5
-
+		flexDirection: 'row',
+        borderRadius: 23,
+        height: 32,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: 16,
 	},
+    text: {
+        fontSize: 16,
+        paddingVertical: 4,
+        textAlign: 'center',
+        color: 'white',
+        fontFamily: 'GTEestiDisplay-Medium'
+    },
+    gradient: {
+        borderRadius: 23,
+        marginRight: 10,
+        shadowColor: "#0072ff",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+          },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5
+    },
     image: {
         width: 60,
         height: 60,
