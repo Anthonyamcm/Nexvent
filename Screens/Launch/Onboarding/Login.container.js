@@ -7,6 +7,7 @@ import CustomButton from "../../../Components/Button/Button";
 import { Platform } from "react-native";
 import { PERMISSIONS, request, check } from "react-native-permissions";
 import Geolocation from 'react-native-geolocation-service';
+import * as Profile from '../../../Components/Profile/Profile'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as appColors from '../../../Components/colors/appColor'
 import * as API from '../../../Api/Api';
@@ -243,6 +244,8 @@ class LoginContainer extends React.Component{
             };
 
             this.setState({isLoading: true})
+
+            Profile.setUserCredentials(data)
 
             const result = await API.LOGIN().doLogin(data);
 

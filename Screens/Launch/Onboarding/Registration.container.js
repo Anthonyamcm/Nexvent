@@ -309,6 +309,9 @@ class RegistrationContainer extends React.Component{
                     email: this.state.email,
                     password: this.state.password
                 }
+
+
+
                 const result = await API.REGISTER().doRegister(data)
                     if (result.code === 200) {
                         try {

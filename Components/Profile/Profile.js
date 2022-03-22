@@ -1,8 +1,10 @@
 import React from "react";
+import CryptoJS from 'crypto-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const USER_DETAILS_KEY = '@user_details';
 const USER_SETTINGS_KEY = '@user_settings';
+const PASSWORD_SECRET = '@USER-PASSWORD';
 
 let userDetails = undefined;
 let userSettings = undefined;
@@ -83,6 +85,32 @@ async function deleteUserSettings() {
     }
 }
 
+async function getUserCredentials() {
+    try {
+        const passwordCiphertext = await AsyncStorage.getItem(PASSWORD_SECRET);
+        const passwordBytes = CryptoJS.AES.decrypt(passwordCiphertext, PASSWORD_SECRET);
+
+        const credentials = {
+            password: passwordBytes.toString(CryptoJS.enc.Utf8),
+        }
+
+        return credentials;
+    } catch (error) {
+        console.log(error);
+        return error;
+    }
+}
+
+async function setUserCredentials(credentials) {
+    // encrypt and save the users pin
+    try {
+        const passwordCiphertext = CryptoJS.AES.encrypt(credentials.password, PASSWORD_SECRET).toString();
+        AsyncStorage.setItem(PASSWORD_SECRET, passwordCiphertext);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
     getUserDetails,
     setUserDetails,
@@ -93,4 +121,7 @@ export {
     getUserSettings,
     setFastUserSettings,
     deleteUserSettings,
+    setUserSettings,
+    setUserCredentials,
+    getUserCredentials
 };

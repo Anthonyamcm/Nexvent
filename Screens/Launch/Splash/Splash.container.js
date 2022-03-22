@@ -40,6 +40,48 @@ class SplashContainer extends React.Component{
         this.checkForUser();
     }
 
+    checkForUser = async () => {
+
+        const credentials = await Profile.getUserCredentials()
+        
+        let userDetails;
+
+        try {
+
+            const userDetailsJson = await Profile.getUserDetails();
+            userDetails = JSON.parse(userDetailsJson);
+
+            if (userDetails.email === null || userDetails.email === undefined){
+                userDetails = JSON.parse(userDetails);
+            } 
+
+        } catch (error) { }
+
+        setTimeout(async () => {
+            if (userDetails !== null && userDetails.email !== undefined) {
+                Profile.setFastUserDetails(userDetails);
+
+                const data = {
+                    email: userDetails.email,
+                    password: credentials.password
+                }
+
+                try {
+                    const result = await API.LOGIN().doLogin(data);
+                    if (result.status.code === 200) {
+                        API.LOGIN_SUCCESS(userDetails)
+                        this.checkLocation()
+                    }
+                } catch (error) { }
+
+            } else {
+            
+                this.props.navigation.navigate('Onboarding');
+            }
+        },1000);
+        
+    }
+
     checkLocation = async () => {
         try {
             check(
@@ -59,32 +101,7 @@ class SplashContainer extends React.Component{
             }
     }
 
-    checkForUser = async () => {
-        const userDetailsJson = await Profile.getUserDetails();
-        let userDetails;
-        try {
-            userDetails = JSON.parse(userDetailsJson);
-            if (userDetails.email === null || userDetails.email === undefined)
-                userDetails = JSON.parse(userDetails);
-        } catch (error) { }
-
-        setTimeout(() => {
-            if (userDetails !== null && userDetails.email !== undefined) {
-            
-                Profile.setFastUserDetails(userDetails);
-
-                
-                API.LOGIN_SUCCESS(userDetails)
-                this.checkLocation()
-
-                
-            } else {
-            
-                this.props.navigation.navigate('Onboarding');
-            }
-        },1000);
-        
-    }
+    
 
     render() {
 
