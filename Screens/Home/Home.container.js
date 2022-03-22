@@ -110,6 +110,7 @@ onPress = (tag) => {
 changeLocation = (name, details) => {
 
   console.log(name)
+  console.log(details)
     this.setState({
       location: {name: name.structured_formatting.main_text, country: name.structured_formatting.secondary_text , lat: details.lat, lng: details.lng}
     })
@@ -241,9 +242,9 @@ Filters = async () => {
       tags = JSON.parse(tags)
 
       this.setState({
-          dates: {startDate: dates.startDate, endDate: dates.endDate},
-          location: {name: location.name, country: location.country, lat: location.lat, lng: location.lng},
-          tags: tags.tags
+          dates: {startDate: dates == null ? new moment().format('YYYY-MM-DD') : dates.startDate, endDate: dates == null ? null : dates.endDate},
+          location: {name: location === null ? null : location.name, country: location === null ? null :  location.country, lat: location === null ? null :  location.lat, lng: location === null ? null :  location.lng},
+          tags: tags === null ? [] :  tags.tags
       })
 
       this.getEventsByFilter()
@@ -376,6 +377,8 @@ filtersRenderContent = () => {
     tags
   } = this.state
 
+  console.log(dates)
+
   return(
     <View style={styles.modalContentContainer}>
         <View style={[styles.modalRow, { justifyContent: 'space-between', paddingHorizontal: 32 }]}>
@@ -486,7 +489,7 @@ filtersRenderContent = () => {
                         >
                       <LinearGradient start={{x: 0, y: 0.75}} end={{x: 1, y: 0.25}} colors={[appColors.lightBlue, appColors.darkBlue]} style={{ flex: 1 }}/>
                     </MaskedView>
-                      <Text style={[styles.text, {color: appColors.grey4}]} numberOfLines={1}>{tags.map(tag => tag).join(", ")}</Text>
+                      <Text style={[styles.text, {color: appColors.grey4}]} numberOfLines={1}>{ tags.length == 0 ? "No tags selected" : tags.map(tag => tag).join(", ")}</Text>
                   </View>
                 </View>
               </TouchableOpacity>

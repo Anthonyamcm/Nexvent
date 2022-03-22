@@ -91,18 +91,17 @@ const styles = StyleSheet.create({
         borderRadius:8
     },
     footer: {
+        flexDirection: 'row',
         position: 'absolute',
-        bottom: 20,
-        left: 0,
+        bottom: 40,
+        left: 50,
         right: 0,
     },
-    shareButton: {
+    button: {
         backgroundColor: 'white', 
         borderRadius: 32, 
         padding: 10,
-        position: 'absolute',
-        left: 43.5,
-        bottom: 15,
+        marginRight: 15,
         shadowOpacity: 0.2,
 		shadowRadius: 5,
 		shadowColor: 'black',

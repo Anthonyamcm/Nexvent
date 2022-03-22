@@ -1,27 +1,30 @@
 import { StyleSheet , Dimensions} from 'react-native';
+import * as appColors from '../../../Components/colors/appColor'
 
-const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 
     mainContainer: {
+        flexDirection: 'column',
         backgroundColor: 'white',
-        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
         paddingVertical: 20,
         paddingHorizontal: 30,
+        marginTop: 30
     },
     title: {
         textAlign: 'left',
         fontSize: 24,
-        marginTop: '5%',
-        fontFamily: 'GTEestiDisplay-Regular'
+        marginTop: 10,
+        fontFamily: 'GTEestiDisplay-Medium'
     },
     inputTitle: {
         textAlign: 'left',
         fontSize: 16,
         fontFamily: 'GTEestiDisplay-Medium',
-        color: 'gray',
+        color: appColors.grey4,
     },
     tosContainer: {
         flexDirection: 'row',

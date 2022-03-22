@@ -105,7 +105,7 @@ class EventDetailsContainer extends Component {
 
                 <View style={[styles.footer]}>
 
-                    <TouchableOpacity style={styles.shareButton}>
+                    <TouchableOpacity style={styles.button}>
                         <Icon name='md-share-outline' size={32}/>
                     </TouchableOpacity>
 
@@ -124,7 +124,7 @@ class EventDetailsContainer extends Component {
                                 width: 150,
                                 position: 'absolute',
                                 right: 50,
-                                bottom: 15
+                                bottom: 0
                                 }}/>
                 </View>
 

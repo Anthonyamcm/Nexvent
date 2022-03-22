@@ -24,7 +24,7 @@ class LocationContainer extends React.Component{
                             types: '(cities)'
                             }}
                             fetchDetails={true}
-                            filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']}
+                            filterReverseGeocodingByTypes={['political', 'administrative_area_level_1']}
                             styles={{
                                 textInput: {
                                     height: 47.5,

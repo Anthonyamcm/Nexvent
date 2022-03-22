@@ -9,7 +9,9 @@ import AuthRoute from "./AuthRoute";
 import MainRoute from "./MainRoute";
 
 import BottomSheet from 'reanimated-bottom-sheet';
+
 import EventDetailsContainer from "../Screens/Home/EventDetails.container";
+import LocationContainer from "../Screens/Launch/Location/Location.container";
 
 import * as appColors from '../Components/colors/appColor'
 
@@ -86,6 +88,7 @@ class Root extends React.Component{
                         <Stack.Screen name='AuthRoute' component={AuthRoute}/>
                         <Stack.Screen name='MainRoute' component={MainRoute} options={{ gestureEnabled: false}}/>
                         <Stack.Screen name='EventDetails' component={EventDetailsContainer} options={{cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid}}/>
+                        <Stack.Screen name='Location' component={LocationContainer}/>
 
                     </Stack.Navigator>
                 </NavigationContainer>

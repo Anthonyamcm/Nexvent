@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Nexvent requires your location in order to provide you with relevant information, features and services</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Nexvent requires your location in order to provide you with relevant information, features and services</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Nexvent requires your location in order to provide you with relevant information</string>
+	<string>Nexvent requires your location in order to provide you with relevant information, features and services</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

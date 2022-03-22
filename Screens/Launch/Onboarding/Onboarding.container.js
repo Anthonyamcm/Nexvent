@@ -3,16 +3,20 @@ import { SafeAreaView , View, Image} from "react-native";
 import CustomButton from "../../../Components/Button/Button";
 import styles from "./Onboarding.style";
 
+const LOCATION_KEY = '@location_key'
+
 class OnboardingContainer extends React.Component {
-    
+
     render() {
         return(
             <SafeAreaView style={{flex:1, backgroundColor: 'white'}}>
                 <View style={styles.mainContainer}>
+
                     <Image
                         style={{opacity: 1 , maxHeight: 100}}
                         resizeMode='contain'
                         source={require('../../../Images/nexvent-logo.png')}/>
+
                     <CustomButton
                         title='Log In'
                         shouldHaveGradient={true}
@@ -29,13 +33,15 @@ class OnboardingContainer extends React.Component {
                         shadowRadius: 3.84,
                         elevation: 5}}
                         onPress={() => {this.props.navigation.navigate('Login')}}/>
+
                     <CustomButton
                         title='Register'
                         titleFontSize={24}
                         fontFamily={'GTEestiDisplay-Medium'}
                         textColor={'gray'}
-                        style={{width: 200, paddingTop: 20}}
+                        style={{paddingTop: 20}}
                         onPress={() => {this.props.navigation.navigate('Registration')}}/>
+
                 </View>
             </SafeAreaView>
         )
