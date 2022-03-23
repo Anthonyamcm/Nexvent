@@ -51,7 +51,7 @@ class LoginContainer extends React.Component{
                         
                         <Text style={[styles.inputTitle, {marginTop: 30}]}>Email</Text>
 
-                        <View style={this.getEmailInputStyle()}>
+                        <View style={this.getInputStyle()}>
                             <CustomInput
                                 hint={'Someone@email.com'}
                                 ref={(ref) => {
@@ -69,7 +69,7 @@ class LoginContainer extends React.Component{
             
                         <Text style={[styles.inputTitle, {marginTop: 30}]}>Password</Text>
 
-                        <View style={this.getPasswordInputStyle()}>
+                        <View style={this.getInputStyle()}>
 
                             <CustomInput
                                 hint={'● ● ● ● ● ● ● ●'}
@@ -81,7 +81,7 @@ class LoginContainer extends React.Component{
                                 inputColor={appColors.grey4}
                                 fontFamily={'GTEestiDisplay-Medium'}
                                 value={password}
-                                onChangeText={(password) => this.setState({ password })}
+                                onChangeText={(password) => this.setState({ password})}
                                 isDataHidden={true}
                                 hideInputWithoutReveal={true}
                                 style={{ width: '100%'}}/>
@@ -134,25 +134,29 @@ class LoginContainer extends React.Component{
     }
 
     getInvalidInputTextStyle = () => {
+        const {
+            showInputError
+        } = this.state;
+
         return {
-            color: '#dc2020',
-            opacity: this.state.showInputError ? 1 : 0,
+            color: appColors.error,
+            opacity: showInputError ? 1 : 0,
             marginTop: 10,
             fontSize: 12,
             fontFamily: 'GTEestiDisplay-Medium'
         }
     }
 
-    getEmailInputStyle = () => {
+    getInputStyle = () => {
         const {
-            showEmailInputError
+            showInputError
         } = this.state;
 
         return {
             backgroundColor: 'white',
             borderRadius: 6,
             borderWidth: 1,
-            borderColor: showEmailInputError ? '#dc2020' : appColors.grey2,
+            borderColor: showInputError ? appColors.error : appColors.grey2,
             marginTop: 15,
             flexDirection: 'row',
             textAlign: 'center',
@@ -161,24 +165,7 @@ class LoginContainer extends React.Component{
         }
     }
 
-    getPasswordInputStyle = () => {
-        const {
-            showPasswordInputError
-        } = this.state;
-
-        return {
-            backgroundColor: 'white',
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: showPasswordInputError ? '#dc2020' : appColors.grey2,
-            marginTop: 15,
-            flexDirection: 'row',
-            textAlign: 'center',
-            overflow: 'hidden',
-            fontFamily: 'GTEestiDisplay-Medium'
-        }
-    }
-
+    
     checkLocation = async () => {
         try {
             check(

@@ -16,6 +16,8 @@ const grey7 = '#232c2e';
 const lightBlue = '#00c6ff';
 const darkBlue = '#0072ff';
 
+const error = '#dc2020';
+
 export{
     lightGrey,
 
@@ -34,5 +36,7 @@ export{
 
     lightBlue,
     darkBlue,
+
+    error
 
 }

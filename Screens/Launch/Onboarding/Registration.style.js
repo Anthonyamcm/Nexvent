@@ -37,7 +37,23 @@ const styles = StyleSheet.create({
     clickableText: {
         fontFamily: 'GTEestiDisplay-Medium',
         textDecorationLine: 'underline',
+    },
+    input: {
+        borderRadius: 6,
+        borderWidth: 1,
+        marginTop: 7.5,
+        flexDirection: 'row',
+        textAlign: 'center',
+        overflow: 'hidden',
+        fontFamily: 'GTEestiDisplay-Medium'
+    },
+    invalidInput: {
+        color: appColors.error,
+        marginTop: 10,
+        fontSize: 12,
+        fontFamily: 'GTEestiDisplay-Medium'
     }
+
 });
 
 export default styles;

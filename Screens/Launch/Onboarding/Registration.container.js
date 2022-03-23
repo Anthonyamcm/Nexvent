@@ -35,6 +35,9 @@ class RegistrationContainer extends React.Component{
             email,
             name,
             password,
+            showPasswordInputError,
+            showEmailInputError,
+            showNameInputError
         } = this.state;
 
         return(
@@ -50,7 +53,7 @@ class RegistrationContainer extends React.Component{
 
                         <Text style={[styles.inputTitle, {marginTop: 30}]}>Name</Text>
 
-                        <View style={this.getNameInputStyle()}>
+                        <View style={[styles.input, {borderColor: showNameInputError ? appColors.error : appColors.grey2,}]}>
                             <CustomInput
                             hint={'Joe'}
                             ref={(ref) => {
@@ -66,11 +69,11 @@ class RegistrationContainer extends React.Component{
                             />
                         </View>
 
-                        <Text style={this.getInvalidInputTextStyle()}>{'Please enter a valid name'}</Text>
+                        <Text style={[styles.invalidInput, { opacity: showNameInputError ? 1 : 0}]}>{'Please enter a valid name'}</Text>
 
                         <Text style={[styles.inputTitle, {marginTop: 10}]}>Email</Text>
 
-                        <View style={this.getEmailInputStyle()}>
+                        <View style={[styles.input, {borderColor: showEmailInputError ? appColors.error : appColors.grey2,}]}>
                             <CustomInput
                             hint={'Someone@email.com'}
                             ref={(ref) => {
@@ -86,11 +89,11 @@ class RegistrationContainer extends React.Component{
                             />
                         </View>
 
-                        <Text style={this.getInvalidInputTextStyle()}>{'Please enter a valid email'}</Text>
+                        <Text style={[styles.invalidInput, { opacity: showEmailInputError ? 1 : 0}]}>{'Please enter a valid email'}</Text>
 
                         <Text style={[styles.inputTitle, {marginTop: 10}]}>Password</Text>
 
-                        <View style={this.getPasswordInputStyle()}>
+                        <View style={[styles.input, {borderColor: showPasswordInputError ? appColors.error : appColors.grey2,}]}>
                             <CustomInput
                                 hint={'● ● ● ● ● ● ● ●'}
                                 ref={(ref) => {
@@ -108,7 +111,7 @@ class RegistrationContainer extends React.Component{
                                 />
                         </View>
 
-                        <Text style={this.getInvalidInputTextStyle()}>{'Password must be 8 characters long'}</Text>
+                        <Text style={[styles.invalidInput, { opacity: showPasswordInputError ? 1 : 0}]}>{'Your password must be at least 8 characters long'}</Text>
 
                         <View style={styles.tosContainer}>
                             <CheckBox
@@ -169,69 +172,6 @@ class RegistrationContainer extends React.Component{
         }
     }
 
-    getInvalidInputTextStyle = () => {
-        return {
-            color: '#dc2020',
-            opacity: this.state.showNameInputError ? 1 : 0,
-            marginTop: 10,
-            fontSize: 12,
-            fontFamily: 'GTEestiDisplay-Medium'
-        }
-    }
-
-
-    getNameInputStyle = () => {
-        const {
-            showNameInputError
-        } = this.state;
-
-        return {
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: showNameInputError ? '#dc2020' : appColors.grey2,
-            marginTop: 7.5,
-            flexDirection: 'row',
-            textAlign: 'center',
-            overflow: 'hidden',
-            fontFamily: 'GTEestiDisplay-Medium'
-        }
-    }
-
-    getEmailInputStyle = () => {
-        const {
-            showEmailInputError
-        } = this.state;
-
-        return {
-            backgroundColor: appColors.grey2,
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: showEmailInputError ? '#dc2020' : appColors.grey2,
-            marginTop: 7.5,
-            flexDirection: 'row',
-            textAlign: 'center',
-            overflow: 'hidden',
-            fontFamily: 'GTEestiDisplay-Medium'
-        }
-    }
-
-    getPasswordInputStyle = () => {
-        const {
-            showPasswordInputError
-        } = this.state;
-
-        return {
-            backgroundColor: appColors.grey3,
-            borderRadius: 6,
-            borderWidth: 1,
-            borderColor: showPasswordInputError ? '#dc2020' : appColors.grey2,
-            marginTop: 7.5,
-            flexDirection: 'row',
-            textAlign: 'center',
-            overflow: 'hidden',
-            fontFamily: 'GTEestiDisplay-Medium'
-        }
-    }
 
     getTosErrorStyle = () => {
         return {
@@ -239,47 +179,44 @@ class RegistrationContainer extends React.Component{
             opacity: this.state.showTosError ? 1 : 0,
             marginTop: 10,
             fontSize: 12,
-            fontFamily: 'GTEestiDisplay-Regular'
+            fontFamily: 'GTEestiDisplay-Medium'
         }
     }
 
     onRegistrationPressed = async () => {
         const {
-            stepProgress,
             isTosChecked,
             email,
             name,
             password
         } = this.state;
-    
-        
-        if (name.length === 0) {
+
+        let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+ 
+        if (name.length < 3) {
             this.setState({
                 showNameInputError: true
             })
-            return;
         } else {
             this.setState({
                 showNameInputError: false
             })
         }
 
-        if (email.length === 0) {
+        if (reg.test(email) === false) {
             this.setState({
                 showEmailInputError: true
             })
-            return;
         } else {
             this.setState({
                 showEmailInputError: false
             })
         }
 
-        if (password.length === 0) {
+        if (password.length < 8) {
             this.setState({
                 showPasswordInputError: true
             })
-            return;
         } else {
             this.setState({
                 showPasswordInputError: false
@@ -290,7 +227,6 @@ class RegistrationContainer extends React.Component{
             this.setState({
                 showTosError: true
             });
-            return;
         } else {
             this.setState({
                 showTosError: false
@@ -298,33 +234,20 @@ class RegistrationContainer extends React.Component{
         }
 
         if(email.length > 0 && isTosChecked){
+
             try {
+
                 const data = {
                     name: this.state.name,
                     email: this.state.email,
                     password: this.state.password,
                 };
 
-                const loginData ={
-                    email: this.state.email,
-                    password: this.state.password
-                }
-
-
-
                 const result = await API.REGISTER().doRegister(data)
-                    if (result.code === 200) {
-                        try {
-                            const result = await API.LOGIN().doLogin(loginData)
-                                if(result.status.code === 200){
-                                    API.LOGIN_SUCCESS(result.body);
-                                    this.props.navigation.navigate('MainRoute');
-                                } else {
-                                    console.log(result)
-                                }
-                            } catch (error) {
-                                console.log(error)
-                            }
+                console.log(result)
+                    if (result.status.code === 200) {
+                        API.LOGIN_SUCCESS(result.body);
+                        this.props.navigation.navigate('MainRoute');
                     }else{
                         console.log(result)
                     }
