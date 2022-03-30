@@ -41,8 +41,6 @@ class SplashContainer extends React.Component{
     }
 
     checkForUser = async () => {
-
-        const credentials = await Profile.getUserCredentials()
         
         let userDetails;
 
@@ -61,8 +59,10 @@ class SplashContainer extends React.Component{
             if (userDetails !== null && userDetails.email !== undefined) {
                 Profile.setFastUserDetails(userDetails);
 
+                const credentials = await Profile.getUserCredentials()
+
                 const data = {
-                    email: userDetails.email,
+                    email: credentials.email,
                     password: credentials.password
                 }
 
@@ -89,7 +89,6 @@ class SplashContainer extends React.Component{
                 android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
                 ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
                 })).then(res => {
-                    console.log(res)
                     if(res !== 'granted'){
                         this.props.navigation.navigate('Location');
                     }else{

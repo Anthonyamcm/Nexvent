@@ -3,8 +3,6 @@ import { SafeAreaView , View, Image} from "react-native";
 import CustomButton from "../../../Components/Button/Button";
 import styles from "./Onboarding.style";
 
-const LOCATION_KEY = '@location_key'
-
 class OnboardingContainer extends React.Component {
 
     render() {

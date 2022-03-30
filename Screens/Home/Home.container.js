@@ -58,8 +58,6 @@ class HomeContainer extends React.Component {
       isLoading: true
     })
 
-    console.log(dates.endDate)
-
     let bodydata = {
       tags: tags,
       dates: {startDate: moment.utc(moment(dates.startDate)).format(), endDate: dates.endDate != null ?  moment.utc(moment(dates.endDate)).format() : null},
@@ -67,11 +65,8 @@ class HomeContainer extends React.Component {
       distance: distance
     }
 
-    console.log(bodydata)
-
     try {
         const result = await API.USER().getEvents(bodydata)
-        console.log(result)
         if (result.code === 200) {
             this.setState({
                 data: result.event,
@@ -108,13 +103,9 @@ onPress = (tag) => {
   }
 
 changeLocation = (name, details) => {
-
-  console.log(name)
-  console.log(details)
     this.setState({
       location: {name: name.structured_formatting.main_text, country: name.structured_formatting.secondary_text , lat: details.lat, lng: details.lng}
     })
-
 }
 
 changeDates = (date) => {
@@ -376,8 +367,6 @@ filtersRenderContent = () => {
     dates,
     tags
   } = this.state
-
-  console.log(dates)
 
   return(
     <View style={styles.modalContentContainer}>

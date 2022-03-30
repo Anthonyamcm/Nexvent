@@ -10,6 +10,7 @@ import CustomInput from "../../../Components/Input/Input";
 import CheckBox from '@react-native-community/checkbox';
 import CustomButton from "../../../Components/Button/Button";
 import styles from './Registration.style'
+import * as Profile from '../../../Components/Profile/Profile'
 import * as appColors from '../../../Components/colors/appColor'
 import * as API from '../../../Api/Api';
 
@@ -21,7 +22,6 @@ class RegistrationContainer extends React.Component{
             name: '',
             email: '',
             password: '',
-            userData: null,
             showTosError: false,
             showNameInputError: false,
             showEmailInputError: false,
@@ -64,7 +64,7 @@ class RegistrationContainer extends React.Component{
                             borderColor={appColors.grey2}
                             inputColor={appColors.grey4}
                             fontFamily={'GTEestiDisplay-Medium'}
-                            onChangeText={(name) => this.setState({ name })}
+                            onChangeText={(name) => this.setState({ name, showNameInputError: false })}
                             style={{ width: '100%'}}
                             />
                         </View>
@@ -84,7 +84,7 @@ class RegistrationContainer extends React.Component{
                             backgroundColor={appColors.grey2}
                             borderColor={appColors.grey2}
                             fontFamily={'GTEestiDisplay-Medium'}
-                            onChangeText={(email) => this.setState({ email })}
+                            onChangeText={(email) => this.setState({ email, showEmailInputError: false })}
                             style={{ width: '100%'}}
                             />
                         </View>
@@ -104,7 +104,7 @@ class RegistrationContainer extends React.Component{
                                 inputColor={appColors.grey4}
                                 fontFamily={'GTEestiDisplay-Medium'}
                                 value={password}
-                                onChangeText={(password) => this.setState({ password })}
+                                onChangeText={(password) => this.setState({ password, showPasswordInputError: false })}
                                 isDataHidden={true}
                                 hideInputWithoutReveal={true}
                                 style={{ width: '100%'}}
@@ -243,13 +243,14 @@ class RegistrationContainer extends React.Component{
                     password: this.state.password,
                 };
 
+               
+                Profile.setUserCredentials({email: this.state.email, password: this.state.password})
+
                 const result = await API.REGISTER().doRegister(data)
-                console.log(result)
                     if (result.status.code === 200) {
                         API.LOGIN_SUCCESS(result.body);
                         this.props.navigation.navigate('MainRoute');
                     }else{
-                        console.log(result)
                     }
             } catch (error) {
                 console.log(error.response);

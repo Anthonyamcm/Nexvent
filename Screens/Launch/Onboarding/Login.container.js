@@ -63,7 +63,7 @@ class LoginContainer extends React.Component{
                                 borderColor={appColors.grey2}
                                 inputColor={appColors.grey4}
                                 fontFamily={'GTEestiDisplay-Medium'}
-                                onChangeText={(email) => this.setState({ email })}
+                                onChangeText={(email) => this.setState({ email, showInputError: false })}
                                 style={{ width: '100%'}}/>
                         </View>
             
@@ -81,7 +81,7 @@ class LoginContainer extends React.Component{
                                 inputColor={appColors.grey4}
                                 fontFamily={'GTEestiDisplay-Medium'}
                                 value={password}
-                                onChangeText={(password) => this.setState({ password})}
+                                onChangeText={(password) => this.setState({ password, showInputError: false})}
                                 isDataHidden={true}
                                 hideInputWithoutReveal={true}
                                 style={{ width: '100%'}}/>
@@ -192,7 +192,7 @@ class LoginContainer extends React.Component{
                             },
                             { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
                             } else {
-                            console.log("Location is not enabled");
+                            this.props.navigation.navigate('Location')
                             }
                         });
                     }else{
