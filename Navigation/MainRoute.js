@@ -1,11 +1,10 @@
 import React from 'react';
 import { AnimatedTabBarNavigator } from "react-native-animated-nav-tab-bar";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeContainer from '../Screens/Home/Home.container';
+import FeedContainer from '../Screens/Feed/Feed.container';
 import AccountContainer from '../Screens/Account/Account.container';
 import LikesContainer from '../Screens/Likes/Likes.container'
 import * as appColors from '../Components/colors/appColor'
-import { floor } from 'react-native-reanimated';
 
 const MainRoute = () => {
 
@@ -13,7 +12,7 @@ const MainRoute = () => {
 
   return(
       <Tabs.Navigator
-      initialRouteName='Home'
+      initialRouteName='Discover'
       tabBarOptions={{
         activeBackgroundColor: appColors.grey2,
         activeTintColor: appColors.grey4,
@@ -43,12 +42,12 @@ const MainRoute = () => {
           }}
         />
         <Tabs.Screen
-          name="Home"
-          component={HomeContainer}
+          name="Discover"
+          component={FeedContainer}
           options={{
             tabBarIcon: ({ focused, color, size }) => (
                 <Ionicons
-                    name="md-home-outline"
+                    name="md-map-outline"
                     size={size ? size : 24}
                     color={focused ? color : "#222222"}
                     focused={focused}

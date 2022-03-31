@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		paddingTop: 15,
-      	paddingBottom: 10,
+      	paddingBottom: 15,
       	color: 'white',
-      	fontSize: 30,
+      	fontSize: 32,
 		fontFamily: 'GTEestiDisplay-Medium'
 	},
 	locationContainer: {
@@ -42,31 +42,42 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		flexDirection: 'row',
-		paddingBottom: 10,
+		paddingBottom: 15,
 		
 	},
 	Location: {
 		color: 'white',
 		fontFamily: 'GTEestiDisplay-Medium',
-		fontSize: 20,
+		fontSize: 18,
 	},
 	tagContainer: {
 		flexDirection: 'row',
-		paddingBottom: 15,
+		paddingBottom: 20,
+		alignItems: 'center'
 	},
 	tag: {
 		color: 'white',
 		fontFamily: 'GTEestiDisplay-Medium',
-		borderColor: 'white',
-		borderRadius: 18,
-		borderWidth: 2,
-		borderColor: 'white',
 		paddingHorizontal: 10,
-		paddingVertical: 7.5,
-		marginVertical: 2.5,
-		marginRight: 10
+		paddingVertical: 10,
+		fontSize: 14
 
-	}
+	},
+	image: {
+		width: 25,
+		height: 25,
+		borderColor: 'white',
+		borderWidth: 2,
+        borderRadius: 25/2,
+        marginRight: -15,
+        shadowColor: "black",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+        shadowOpacity: 0.5,
+        shadowRadius: 10,
+    },
 })
 
 export default styles

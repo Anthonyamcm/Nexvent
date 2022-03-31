@@ -314,7 +314,8 @@ componentDidMount() {
 
           </View>
 
-          <Modal isVisible={isDateModalVisible}>
+          <Modal isVisible={isDateModalVisible}
+                  onBackdropPress={() => this.setState({isDateModalVisible: false})}>
               <CalendarContainer 
                 startDate={dates.startDate}
                 endDate={dates.endDate}
@@ -323,14 +324,16 @@ componentDidMount() {
                 isSaving={isSaving}/>
           </Modal>
 
-          <Modal isVisible={isLocationModalVisible}>
+          <Modal isVisible={isLocationModalVisible}
+                 onBackdropPress={() => this.setState({isLocationModalVisible: false})}>
               <LocationContainer
                 onChange={this.changeLocation}
                 save={this.save}
                 isSaving={isSaving}/>
           </Modal>
 
-          <Modal isVisible={isTagsModalVisible}>
+          <Modal  isVisible={isTagsModalVisible}
+                  onBackdropPress={() => this.setState({isTagsModalVisible: false})}>
               <TagsContainer
                 tags={tags}
                 onPress={this.onPress}

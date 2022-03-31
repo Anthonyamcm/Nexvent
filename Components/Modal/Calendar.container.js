@@ -9,19 +9,16 @@ class CalendarContainer extends React.Component {
     render(){
 
         return(
-            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 15, marginVertical: 50, borderRadius: 32 }}>
+            <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 5, marginVertical: 50, borderRadius: 32 }}>
 
-                <View style={styles.modalHeader}>
-                    <Text style={styles.modalText}>{'Calendar'}</Text>
-                </View>
-                    
-                <View style={{paddingVertical: 15}}>
+                <View style={{paddingVertical: 15, paddingBottom: 50}}>
                     <Calendar
                             disabledBeforeToday={true}
                             startDate={this.props.startDate}
                             endDate={this.props.endDate}
                             onChange={(startDate, endDate) => {this.props.onChange(startDate, endDate)}}
                             isMonthFirst={true}
+                            pastYearRange={0}
                             style={{
                                 monthNameText: {fontFamily: 'GTEestiDisplay-Medium'},
                                 dayNameText: {fontFamily: 'GTEestiDisplay-Medium'},

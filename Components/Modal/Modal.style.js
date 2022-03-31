@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20
     },
     modalFooter: {
-        backgroundColor: 'white',
         position: 'absolute',
         height: 75,
         width: width - 40,

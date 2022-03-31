@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.style';
-import { Text, View, ImageBackground, Dimensions, ScrollView } from 'react-native';
+import { Text, View, ImageBackground, Dimensions, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import { SharedElement } from 'react-navigation-shared-element';
 import Icon from 'react-native-vector-icons/Ionicons';
 Icon.loadFont();
@@ -32,7 +33,7 @@ const CardItem = ({
       </View>
           
         <View style={styles.footer}>
-           
+
           <Text style={styles.title}>{name}</Text>
            
           <View style={styles.locationContainer}>
@@ -41,8 +42,9 @@ const CardItem = ({
 
           <View style={styles.tagContainer}>
             {tags.slice(0, 4).map((tag, index) => 
-            <Text key={index} style={styles.tag}>{tag}</Text>
+              <Image resizeMode='contain' source={require('../../Images/profile.webp')} style={styles.image}/>
             )}
+            <Text style={{fontFamily: 'GTEestiDisplay-Medium', fontSize: 12, paddingHorizontal: 30, color: 'white'}}>{ 'Sophie, Brandon + ' + tags.length + " More"}</Text>
           </View>
 
         </View>
