@@ -128,9 +128,6 @@ class CustomButton extends React.Component {
         return {
             width: this.props.iconSize,
             height: this.props.iconSize,
-            marginEnd: 5,
-            marginTop: 'auto',
-            marginBottom: 'auto',
             display: (this.props.icon === null || this.props.icon === undefined) ? 'none' : 'flex',
         };
     }

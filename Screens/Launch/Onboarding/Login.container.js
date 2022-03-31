@@ -176,8 +176,6 @@ class LoginContainer extends React.Component{
             const result = await checkPermission(permissions)
 
             if(result === true){
-                const result = getLocation()
-                console.log(result)
                 this.props.navigation.navigate('MainRoute')
             }else{
 

@@ -17,7 +17,7 @@ class AccountContainer extends React.Component{
                 <View style={styles.containerHome}>
                     <View style={styles.column}>
                         <Text style={styles.text}>{'Account'}</Text>
-                        <Text style={[styles.text, {paddingVertical: 10, color: 'gray', fontSize: 20}]}>{Profile.userDetails.name}</Text>
+                        <Text style={[styles.text, {paddingVertical: 10, color: 'gray', fontSize: 20}]}>{Profile.userDetails.first_name + ' ' + Profile.userDetails.last_name}</Text>
                     </View>
                     <View style={[styles.column, {marginTop: 10}]}>
                         <TouchableOpacity style={styles.button}>

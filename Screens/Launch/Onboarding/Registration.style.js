@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',
         paddingVertical: 20,
         paddingHorizontal: 30,
         marginTop: 30
@@ -25,6 +24,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'GTEestiDisplay-Medium',
         color: appColors.grey4,
+        flex: 1
     },
     tosContainer: {
         flexDirection: 'row',
@@ -39,11 +39,8 @@ const styles = StyleSheet.create({
         textDecorationLine: 'underline',
     },
     input: {
-        borderRadius: 6,
         borderWidth: 1,
-        marginTop: 7.5,
-        flexDirection: 'row',
-        textAlign: 'center',
+        borderRadius: 6,
         overflow: 'hidden',
         fontFamily: 'GTEestiDisplay-Medium'
     },

@@ -3,7 +3,7 @@ import {
     View,
     Text,
     TouchableWithoutFeedback,
-    Dimensions
+    TouchableOpacity
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Platform } from "react-native";
@@ -22,7 +22,8 @@ class RegistrationContainer extends React.Component{
         super(props);
 
         this.state = {
-            name: '',
+            first_name: '',
+            last_name: '',
             email: '',
             password: '',
             isLoading: false,
@@ -37,7 +38,8 @@ class RegistrationContainer extends React.Component{
         const {
             isTosChecked,
             email,
-            name,
+            first_name,
+            last_name,
             password,
             showPasswordInputError,
             showEmailInputError,
@@ -56,28 +58,73 @@ class RegistrationContainer extends React.Component{
 
                         <Text style={styles.title}>{'Create Account'}</Text>
 
-                        <Text style={[styles.inputTitle, {marginTop: 30}]}>Name</Text>
+                        <View style={{flexDirection: 'row', justifyContent: "space-between",alignItems: "center", marginTop: 10}}>
 
-                        <View style={[styles.input, {borderColor: showNameInputError ? appColors.error : appColors.grey2,}]}>
-                            <CustomInput
-                            hint={'Joe'}
-                            ref={(ref) => {
-                                this.name = ref;
-                            }}
-                            value={name}
-                            backgroundColor={appColors.grey2}
-                            borderColor={appColors.grey2}
-                            inputColor={appColors.grey4}
-                            fontFamily={'GTEestiDisplay-Medium'}
-                            onChangeText={(name) => this.setState({ name, showNameInputError: false })}
-                            style={{ width: '100%'}}/>
+                            <CustomButton
+                                icon={'md-image'}
+                                iconColor={appColors.grey3}
+                                iconSize={50}
+                                style={{
+                                    borderWidth:2,
+                                    borderColor: appColors.grey2,
+                                    alignItems:'center',
+                                    justifyContent:'center',
+                                    width:80,
+                                    height:80,
+                                    backgroundColor: appColors.grey2,
+                                    borderRadius: 6,
+                                    marginTop: 20
+                                  }}/>
+
+                            <View style={{flexDirection: 'column', flex: 1, paddingHorizontal: 10}}>
+
+                                <Text style={[styles.inputTitle, {marginTop: 25}]}>First Name</Text>
+
+                                <View style={[styles.input, {borderColor: showNameInputError ? appColors.error : appColors.grey2}]}>
+                                    <CustomInput
+                                    hint={'Joe'}
+                                    ref={(ref) => {
+                                        this.name = ref;
+                                    }}
+                                    value={first_name}
+                                    backgroundColor={appColors.grey2}
+                                    borderColor={appColors.grey2}
+                                    inputColor={appColors.grey4}
+                                    fontFamily={'GTEestiDisplay-Medium'}
+                                    onChangeText={(first_name) => this.setState({ first_name, showNameInputError: false })}
+                                    />
+                                </View>
+
+                            </View>
+
+                            <View style={{flexDirection: 'column', flex: 1}}>
+
+                                <Text style={[styles.inputTitle, {marginTop: 25}]}>Last Name</Text>
+
+                                <View style={[styles.input, {borderColor: showNameInputError ? appColors.error : appColors.grey2,}]}>
+                                    <CustomInput
+                                    hint={'Joe'}
+                                    ref={(ref) => {
+                                        this.name = ref;
+                                    }}
+                                    value={last_name}
+                                    backgroundColor={appColors.grey2}
+                                    borderColor={appColors.grey2}
+                                    inputColor={appColors.grey4}
+                                    fontFamily={'GTEestiDisplay-Medium'}
+                                    onChangeText={(last_name) => this.setState({ last_name, showNameInputError: false })}
+                                    />
+                                </View>
+
+                            </View>
+
                         </View>
 
-                        <Text style={[styles.invalidInput, { opacity: showNameInputError ? 1 : 0}]}>{'Please enter a valid name'}</Text>
+                        <Text style={[styles.invalidInput, { opacity: showNameInputError ? 1 : 0, alignSelf: 'center'}]}>{'Please enter a valid name'}</Text>
 
                         <Text style={[styles.inputTitle, {marginTop: 10}]}>Email</Text>
 
-                        <View style={[styles.input, {borderColor: showEmailInputError ? appColors.error : appColors.grey2,}]}>
+                        <View style={[styles.input, {borderColor: showEmailInputError ? appColors.error : appColors.grey2, marginTop: 10}]}>
                             <CustomInput
                             hint={'Someone@email.com'}
                             ref={(ref) => {
@@ -96,7 +143,7 @@ class RegistrationContainer extends React.Component{
 
                         <Text style={[styles.inputTitle, {marginTop: 10}]}>Password</Text>
 
-                        <View style={[styles.input, {borderColor: showPasswordInputError ? appColors.error : appColors.grey2,}]}>
+                        <View style={[styles.input, {borderColor: showPasswordInputError ? appColors.error : appColors.grey2, marginTop: 10}]}>
                             <CustomInput
                                 hint={'● ● ● ● ● ● ● ●'}
                                 ref={(ref) => {
@@ -216,7 +263,8 @@ class RegistrationContainer extends React.Component{
         const {
             isTosChecked,
             email,
-            name,
+            first_name,
+            last_name,
             password
         } = this.state;
 
@@ -224,7 +272,7 @@ class RegistrationContainer extends React.Component{
 
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
  
-        if (name.length < 3) {
+        if (first_name.length < 3 || last_name.length < 3) {
             this.setState({showNameInputError: true, isLoading: false})
         } else {
             this.setState({showNameInputError: false})
@@ -253,7 +301,8 @@ class RegistrationContainer extends React.Component{
             try {
 
                 const data = {
-                    name: this.state.name,
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
                     email: this.state.email,
                     password: this.state.password,
                 };

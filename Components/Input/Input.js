@@ -90,6 +90,7 @@ class CustomInput extends React.Component {
         return {
             fontFamily: this.props.fontFamily,
             marginStart: 0,
+            fontSize: 16,
             fontWeight: this.props.titleFontWeight,
             display: (this.props.title === undefined || this.props.title === null) ? 'none' : 'flex',
             color: this.props.titleColor
