@@ -5,7 +5,8 @@ import styles from "./Splash.style";
 import * as Profile from "../../../Components/Profile/Profile"
 import * as API from "../../../Api/Api"
 import { Platform } from "react-native";
-import { PERMISSIONS, check } from "react-native-permissions";
+import { checkPermission } from "../../../Components/Permissions/Permissions";
+import { PERMISSIONS } from "react-native-permissions";
 
 class SplashContainer extends React.Component{
     constructor(props){
@@ -70,7 +71,17 @@ class SplashContainer extends React.Component{
                     const result = await API.LOGIN().doLogin(data);
                     if (result.status.code === 200) {
                         API.LOGIN_SUCCESS(userDetails)
-                        this.checkLocation()
+
+                        const permissions = Platform.OS === 'ios' ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+
+                        const result = await checkPermission(permissions)
+
+                        if(result === true){
+                            this.props.navigation.navigate('MainRoute')
+                        }else{
+                            this.props.navigation.navigate('Location')
+                        }
+                    
                     }
                 } catch (error) { }
 
@@ -82,26 +93,7 @@ class SplashContainer extends React.Component{
         
     }
 
-    checkLocation = async () => {
-        try {
-            check(
-                Platform.select({
-                android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-                ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-                })).then(res => {
-                    if(res !== 'granted'){
-                        this.props.navigation.navigate('Location');
-                    }else{
-                        this.props.navigation.navigate('MainRoute');
-                    }
-                })
-            } catch (error) {
-                console.log("location set error:", error);
-            }
-    }
-
     
-
     render() {
 
         const{

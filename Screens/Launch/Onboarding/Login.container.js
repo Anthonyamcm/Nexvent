@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, TouchableWithoutFeedback} from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Platform } from "react-native";
+import { PERMISSIONS } from "react-native-permissions";
+import { checkPermission, requestPermission  } from "../../../Components/Permissions/Permissions";
+import { getLocation } from "../../../services/location/locationServices";
 import CustomInput from "../../../Components/Input/Input";
 import styles from "./Login.style";
 import CustomButton from "../../../Components/Button/Button";
-import { Platform } from "react-native";
-import { PERMISSIONS, request, check } from "react-native-permissions";
 import Geolocation from 'react-native-geolocation-service';
 import * as Profile from '../../../Components/Profile/Profile'
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -165,62 +167,33 @@ class LoginContainer extends React.Component{
         }
     }
 
-    
-    checkLocation = async () => {
-        try {
-            check(
-                Platform.select({
-                android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-                ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-                })).then(res => {
-                    console.log(res)
-                    if(res !== 'granted'){
-                        request(
-                            Platform.select({
-                            android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-                            ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-                            })
-                        ).then(res => {
-                            if (res === 'granted') {
-                            Geolocation.getCurrentPosition(
-                                (position) => {
-                                this.saveLocation(position)
-                                this.props.navigation.navigate('MainRoute');
-                            },
-                            (error) => {
-                                console.log(error.code, error.message);
-                            },
-                            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 });
-                            } else {
-                            this.props.navigation.navigate('Location')
-                            }
-                        });
-                    }else{
-                        this.props.navigation.navigate('MainRoute');
-                    }
-                })
-            } catch (error) {
-                console.log("location set error:", error);
-            }
-    }
+    locationService = async () => {
 
-    saveLocation = async (position) => {
+        const permissions = Platform.OS === 'ios' ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION 
+        
         try{
 
-            const jsonValue = {
-                name: "Current Location",
-                country: "Using current location",
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            }
-      
-            await AsyncStorage.setItem(LOCATION_KEY, JSON.stringify(jsonValue))
-      
-            } catch(error){
-                console.log(error)
-            }
-    }
+            const result = await checkPermission(permissions)
 
+            if(result === true){
+                const result = getLocation()
+                console.log(result)
+                this.props.navigation.navigate('MainRoute')
+            }else{
+
+                const result = await requestPermission(permissions)
+
+                if(result === true){
+                    this.props.navigation.navigate('MainRoute')
+                }else{
+                    this.props.navigation.navigate('Location')
+                }
+            }
+        }catch(error){
+            console.log(error)
+        }
+
+    }
 
     onLoginPressed = async () => {
         try {
@@ -244,7 +217,7 @@ class LoginContainer extends React.Component{
                         isLoading: false
                     }, async () => {
                         API.LOGIN_SUCCESS(result.body);
-                        this.checkLocation()
+                        this.locationService()
                     })
                     
                 }else{

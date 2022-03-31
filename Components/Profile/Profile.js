@@ -4,12 +4,10 @@ import CryptoJS from 'crypto-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const USER_DETAILS_KEY = '@user_details';
-const USER_SETTINGS_KEY = '@user_settings';
 const PASSWORD_SECRET = '@USER-PASSWORD';
 const EMAIL_SECRET = '@USER-EMAIL';
 
 let userDetails = undefined;
-let userSettings = undefined;
 
 function setFastUserDetails(data) {
     userDetails = data;
@@ -42,44 +40,6 @@ async function setUserDetails(value) {
 async function deleteUserDetails() {
     try {
         await AsyncStorage.removeItem(USER_DETAILS_KEY);
-        return true;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-function setFastUserSettings(data) {
-    userSettings = data;
-}
-
-async function getUserSettings() {
-    try {
-        const jsonValue = await AsyncStorage.getItem(USER_SETTINGS_KEY);
-        return jsonValue != null ? jsonValue : null;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function setUserSettings(value) {
-    try {
-        const jsonValue = JSON.stringify(value)
-        await AsyncStorage.setItem(USER_SETTINGS_KEY, jsonValue)
-
-        this.setFastUserDetails(value);
-
-        return true;
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function deleteUserSettings() {
-    try {
-        await AsyncStorage.removeItem(USER_SETTINGS_KEY);
         return true;
     } catch (error) {
         console.log(error);
@@ -123,12 +83,7 @@ export {
     setUserDetails,
     deleteUserDetails,
     userDetails,
-    userSettings,
     setFastUserDetails,
-    getUserSettings,
-    setFastUserSettings,
-    deleteUserSettings,
-    setUserSettings,
     setUserCredentials,
     getUserCredentials
 };

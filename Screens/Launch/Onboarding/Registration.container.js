@@ -6,6 +6,9 @@ import {
     Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Platform } from "react-native";
+import { PERMISSIONS } from "react-native-permissions";
+import { checkPermission, requestPermission  } from "../../../Components/Permissions/Permissions";
 import CustomInput from "../../../Components/Input/Input";
 import CheckBox from '@react-native-community/checkbox';
 import CustomButton from "../../../Components/Button/Button";
@@ -22,6 +25,7 @@ class RegistrationContainer extends React.Component{
             name: '',
             email: '',
             password: '',
+            isLoading: false,
             showTosError: false,
             showNameInputError: false,
             showEmailInputError: false,
@@ -37,7 +41,8 @@ class RegistrationContainer extends React.Component{
             password,
             showPasswordInputError,
             showEmailInputError,
-            showNameInputError
+            showNameInputError,
+            isLoading
         } = this.state;
 
         return(
@@ -65,8 +70,7 @@ class RegistrationContainer extends React.Component{
                             inputColor={appColors.grey4}
                             fontFamily={'GTEestiDisplay-Medium'}
                             onChangeText={(name) => this.setState({ name, showNameInputError: false })}
-                            style={{ width: '100%'}}
-                            />
+                            style={{ width: '100%'}}/>
                         </View>
 
                         <Text style={[styles.invalidInput, { opacity: showNameInputError ? 1 : 0}]}>{'Please enter a valid name'}</Text>
@@ -85,8 +89,7 @@ class RegistrationContainer extends React.Component{
                             borderColor={appColors.grey2}
                             fontFamily={'GTEestiDisplay-Medium'}
                             onChangeText={(email) => this.setState({ email, showEmailInputError: false })}
-                            style={{ width: '100%'}}
-                            />
+                            style={{ width: '100%'}}/>
                         </View>
 
                         <Text style={[styles.invalidInput, { opacity: showEmailInputError ? 1 : 0}]}>{'Please enter a valid email'}</Text>
@@ -107,8 +110,7 @@ class RegistrationContainer extends React.Component{
                                 onChangeText={(password) => this.setState({ password, showPasswordInputError: false })}
                                 isDataHidden={true}
                                 hideInputWithoutReveal={true}
-                                style={{ width: '100%'}}
-                                />
+                                style={{ width: '100%'}}/>
                         </View>
 
                         <Text style={[styles.invalidInput, { opacity: showPasswordInputError ? 1 : 0}]}>{'Your password must be at least 8 characters long'}</Text>
@@ -143,6 +145,7 @@ class RegistrationContainer extends React.Component{
                             elevation: 5}}
                             shouldHaveGradient={true}
                             titleFontSize={20}
+                            isLoading={isLoading}
                             onPress={() => this.onRegistrationPressed()}/>
 
                         <CustomButton
@@ -183,6 +186,32 @@ class RegistrationContainer extends React.Component{
         }
     }
 
+    locationService = async () => {
+
+        const permissions = Platform.OS === 'ios' ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION 
+        
+        try{
+            
+            const result = await checkPermission(permissions)
+
+            if(result === true){
+                this.props.navigation.navigate('MainRoute')
+            }else{
+
+                const result = await requestPermission(permissions)
+
+                if(result === true){
+                    this.props.navigation.navigate('MainRoute')
+                }else{
+                    this.props.navigation.navigate('Location')
+                }
+            }
+        }catch(error){
+            console.log(error)
+        }
+
+    }
+
     onRegistrationPressed = async () => {
         const {
             isTosChecked,
@@ -191,46 +220,32 @@ class RegistrationContainer extends React.Component{
             password
         } = this.state;
 
+        this.setState({isLoading: true})
+
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
  
         if (name.length < 3) {
-            this.setState({
-                showNameInputError: true
-            })
+            this.setState({showNameInputError: true, isLoading: false})
         } else {
-            this.setState({
-                showNameInputError: false
-            })
+            this.setState({showNameInputError: false})
         }
 
         if (reg.test(email) === false) {
-            this.setState({
-                showEmailInputError: true
-            })
+            this.setState({showEmailInputError: true,isLoading: false})
         } else {
-            this.setState({
-                showEmailInputError: false
-            })
+            this.setState({showEmailInputError: false})
         }
 
         if (password.length < 8) {
-            this.setState({
-                showPasswordInputError: true
-            })
+            this.setState({showPasswordInputError: true,isLoading: false})
         } else {
-            this.setState({
-                showPasswordInputError: false
-            })
+            this.setState({showPasswordInputError: false})
         }
     
         if (!isTosChecked) {
-            this.setState({
-                showTosError: true
-            });
+            this.setState({showTosError: true, isLoading: false});
         } else {
-            this.setState({
-                showTosError: false
-            })
+            this.setState({showTosError: false})
         }
 
         if(email.length > 0 && isTosChecked){
@@ -249,9 +264,10 @@ class RegistrationContainer extends React.Component{
                 const result = await API.REGISTER().doRegister(data)
                     if (result.status.code === 200) {
                         API.LOGIN_SUCCESS(result.body);
-                        this.props.navigation.navigate('MainRoute');
-                    }else{
-                    }
+                        this.locationService()
+                        this.setState({isLoading: false})
+                }
+
             } catch (error) {
                 console.log(error.response);
             }
